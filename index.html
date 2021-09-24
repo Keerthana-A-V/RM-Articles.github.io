@@ -478,395 +478,7 @@
     </div>
   </body>
 
-  <script id="onLoadStartUp">
-    let notifications = document.getElementById("sm-notifications"),
-      genblockchainID = document.getElementById("gen-floid"),
-      genPrivateKey = document.getElementById("gen-privateKey"),
-      settings_page = document.getElementById("settings-page"),
-      homepage = document.getElementById("homepage"),
-      mainarticle_page = document.getElementById("display_page_main");
 
-    async function updateDate() {
-      var month = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-
-      var weekday = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-
-      var d = new Date();
-      var weekday = weekday[d.getDay()];
-      var month = month[d.getMonth()];
-      var date = d.getDate();
-      var year = d.getFullYear();
-
-      document.getElementById(
-        "current_date"
-      ).textContent = `${weekday} ${month} ${date}, ${year}`;
-    }
-
-    updateDate();
-//To fetch the details of article from server
-
-    async function fetchArticleDetails() {
-      let applicants = await floCloudAPI.requestGeneralData("test");
-    }
-
-    function parseArticles(articles) {
-      let domparser = new DOMParser();
-      
-      for(const articleKey in articles){
-        if(articles.hasOwnProperty(articleKey)){
-          let currentarticle = {};
-          let parsedhtml = domparser.parseFromString(articles[articleKey], "text/html");
-          if(parsedhtml.getElementById("title")){
-            currentarticle["title"] = parsedhtml.getElementById("title").textContent;
-            currentarticle["subtitle"] =
-              parsedhtml.getElementById("subtitle").textContent;
-            currentarticle["sections"] = {};
-      
-            totalsections =
-              parsedhtml.getElementById("sectionmaster").childElementCount;
-      
-            for (let j = 0; j < totalsections; j++) {
-              tempobj = {};
-              asection = parsedhtml.getElementById(`section${j + 1}`);
-              if (asection) {
-                sectiontitle = asection.children[0].children[0].textContent;
-                sectionpara1 = asection.children[1].textContent;
-                tempobj["title"] = sectiontitle;
-                tempobj["paragraph"] = sectionpara1;
-                currentarticle["sections"][j] = tempobj;
-              }
-              /*                 else{
-                        parsedhtml.getElementById('sectionmaster')
-                        console.log(j+1)
-                        console.error(`current articleKey with issue : ${currentarticle['title']}`)
-                    } */
-            }
-            parsedarticles[articleKey] = currentarticle;
-          }else{
-            // Article with incorrect format
-            console.error('Article with incorrect format ' + articleKey)
-          }
-        }
-      }
-    }
-
-    function renderColumns(parsedarticles) {
-      numberOfColumns = Object.keys(parsedarticles).length;
-      let columns = document.getElementById("columnsmain");
-      let parsedArticlesKeys = Object.keys(parsedarticles);
-      let map_articlekey_column = {};
-
-      document.getElementById("loader_columnsmain").classList.add("hide");
-      columns.classList.remove("hide");
-
-      for (let i = 0; i < parsedArticlesKeys.length; i++) {
-        columnhtml = `<div class="column" id="column${
-          i + 1
-        }" data-articlekey="${parsedArticlesKeys[i]}">
-                            <div class="head rating1">
-                                <span class="headline hl3">${
-                                  parsedarticles[parsedArticlesKeys[i]].title
-                                }</span>
-                                <p><span class="headline hl4">${
-                                  parsedarticles[parsedArticlesKeys[i]].subtitle
-                                }</span></p>
-                            </div>
-                            <p>${
-                              parsedarticles[parsedArticlesKeys[i]].sections[0]
-                                .paragraph
-                            }</p>
-                            <span><a href='./${
-                              parsedArticlesKeys[i]
-                            }.html'>Read article 
-                                <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
-                            </a>
-                            
-                            <span style="float:right"><span id="column${
-                              i + 1
-                            }_count"></span><i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:0.5rem; cursor:pointer" id="column${
-          i + 1
-        }_thumbs" onclick="clickProcess(this)"></i></span>
-                            <span>
-                            
-                          </div>`;
-        //columns.append(columnhtml)
-        columns.innerHTML += columnhtml;
-        map_articlekey_column[parsedArticlesKeys[i]] = `column${i + 1}`;
-      }
-
-      return map_articlekey_column;
-    }
-
-    function switchtoArticle(element) {
-      homepage.classList.add("hide");
-      document.getElementById("displaypage").innerHTML =
-        articles[element.dataset.articlekey];
-      mainarticle_page.classList.remove("hide");
-    }
-
-    function clickProcess(element) {
-      let columnName = element.id.split("_")[0];
-
-      if (typeof myFloID !== "undefined") {
-        if (element.classList.value == "fa fa-thumbs-o-up") {
-          let articlekey =
-            document.getElementById(columnName).dataset.articlekey;
-          let mainObj = {
-            floID: myFloID,
-            articlekey: articlekey,
-          };
-
-          floCloudAPI
-            .sendGeneralData(JSON.stringify(mainObj), "test")
-            .then((result, mainObj) => {
-              element.classList.value = "fa fa-thumbs-up";
-
-              if (
-                document.getElementById(`${columnName}_count`).textContent == ""
-              ) {
-                document.getElementById(`${columnName}_count`).textContent = "1";
-              } else {
-                document.getElementById(`${columnName}_count`).textContent =
-                  parseInt(
-                    document.getElementById(`${columnName}_count`).textContent
-                  ) + 1;
-              }
-            });
-        }
-      } else {
-        notifications.push("Please login to upvote");
-      }
-    }
-
-    document.getElementById("go_back").addEventListener("click", function () {
-      console.log("Registered a click");
-      if (homepage.classList.contains("hide")) {
-        homepage.classList.remove("hide");
-        mainarticle_page.classList.add("hide");
-      } else {
-      }
-    });
-
-    document
-      .getElementById("go_back_bottom")
-      .addEventListener("click", function () {
-        console.log("Registered a click");
-        if (homepage.classList.contains("hide")) {
-          homepage.classList.remove("hide");
-          mainarticle_page.classList.add("hide");
-        } else {
-        }
-      });
-
-    function updateVotes(articles_votesmapping, map_articlekey_column) {
-      var articleKeys = Object.keys(map_articlekey_column);
-      for (let i = 0; i < articleKeys.length; i++) {
-        if (articleKeys[i] in articles_votesmapping) {
-          document.getElementById(
-            `${map_articlekey_column[articleKeys[i]]}_count`
-          ).textContent = articles_votesmapping[articleKeys[i]];
-        }
-      }
-    }
-
-    let repourl = "https://api.github.com/repos/ranchimall/articles/contents";
-
-    Promise.all([fetch(repourl), webAppClient.requestGeneralData("test")]).then(
-      async (values) => {
-        let repocontent = null;
-        window.articles = {};
-        window.parsedarticles = {};
-
-        repocontent = await values[0].json();
-
-        for (let i = 0; i < repocontent.length; i++) {
-          articlehtml = await (
-            await fetch(repocontent[i]["download_url"])
-          ).text();
-          if (
-            repocontent[i]["name"].slice(-5, repocontent[i]["name"].length) ==
-              ".html" &&
-            repocontent[i]["name"].slice(0, -5) != "index"
-          ) {
-            articles[
-              repocontent[i]["name"].slice(0, repocontent[i]["name"].length - 5)
-            ] = articlehtml;
-          }
-        }
-
-        parseArticles(articles);
-        let map_articlekey_column = renderColumns(parsedarticles);
-        let articleInfo = values[1];
-        let articles_votesmapping = {};
-
-        for (let i = 0; i < articleInfo.length; i++) {
-          let article_message = JSON.parse(articleInfo[i].message);
-
-          if (!(article_message.articlekey in articles_votesmapping)) {
-            articles_votesmapping[article_message.articlekey] = 1;
-          } else {
-            articles_votesmapping[article_message.articlekey]++;
-          }
-        }
-
-        updateVotes(articles_votesmapping, map_articlekey_column);
-      }
-    );
-
-    let myCustomLogin = function () {
-      return new Promise((resolve, reject) => {
-        document
-          .getElementById("login-button")
-          .addEventListener("click", function () {
-            //let userprivatekey = prompt(`Enter Private Key: `)
-            //resolve(userprivatekey)
-            document.getElementById("login-popup").show();
-          });
-
-        document
-          .getElementById("signin-button")
-          .addEventListener("click", function () {
-            let userprivatekey = document
-              .getElementById("privateKey-input")
-              .value.trim();
-            document.getElementById("login-popup").hide();
-            resolve(userprivatekey);
-          });
-
-        document
-          .getElementById("guest-login-button")
-          .addEventListener("click", function () {
-            notifications.push("Please save your Private Key!", "", true);
-            document.getElementById("login-popup").hide();
-            homepage.classList.toggle("hide");
-            settings_page.classList.toggle("hide");
-            reject();
-          });
-      });
-    };
-
-    genblockchainID.addEventListener("click", function () {
-      navigator.clipboard.writeText(this.value).then((value) => {
-        notifications.push("Blockchain ID copied");
-      });
-    });
-
-    genPrivateKey.addEventListener("click", function () {
-      navigator.clipboard.writeText(this.value).then((value) => {
-        notifications.push("Private Key copied");
-      });
-    });
-
-    document
-      .getElementById("ranchimalltimes-logo")
-      .addEventListener("click", function () {
-        if (!mainarticle_page.classList.contains("hide")) {
-          document.getElementById("go_back").click();
-        } else if (!settings_page.classList.contains("hide")) {
-          document.getElementById("settings-button").click();
-        }
-      });
-
-    document
-      .getElementById("logout-button")
-      .addEventListener("click", function () {
-        floDapps.clearCredentials();
-        notifications.push("Succesfully logged out");
-        setTimeout(function () {
-          location.reload();
-        }, 2000);
-      });
-
-    document
-      .getElementById("settings-button")
-      .addEventListener("click", function () {
-        homepage.classList.toggle("hide");
-        settings_page.classList.toggle("hide");
-      });
-
-    function onLoadStartUp() {
-      //floDapps.addStartUpFunction('Sample', Promised Function)
-      //floDapps.setAppObjectStores({sampleObs1:{}, sampleObs2:{options{autoIncrement:true, keyPath:'SampleKey'}, Indexes:{sampleIndex:{}}}})
-      floDapps.setCustomPrivKeyInput(myCustomLogin);
-
-      floDapps
-        .launchStartUp()
-        .then((result) => {
-          document.getElementById("login-button").style.display = "none";
-          document.getElementById("settings-button").style.display = "initial";
-          console.log(result);
-          console.log(`Welcome FLO_ID: ${myFloID}`);
-
-          // fill settings page
-          genblockchainID.value = myFloID;
-          genPrivateKey.value = myPrivKey;
-
-          //App functions....
-          let articledata = floCloudAPI.requestGeneralData("test");
-
-          Promise.all([articledata]).then((values) => {
-            console.log("The promises just got resolved");
-            console.log(values);
-
-            let allArticles = document.querySelectorAll("[data-articlekey]");
-            let map_articlekey_column = {};
-
-            for (let i = 0; i < allArticles.length; i++) {
-              map_articlekey_column[`${allArticles[i].dataset.articlekey}`] =
-                allArticles[i].id;
-            }
-
-            // User list related operations
-            let articleInfo =
-              floGlobals.generalData['{"application":"TestApp","type":"test"}'];
-
-            let articles_votesmapping = {};
-
-            for (let i = 0; i < articleInfo.length; i++) {
-              let article_message = JSON.parse(articleInfo[i].message);
-              if (articleInfo[i].sender == myFloID) {
-                let article_column_number =
-                  map_articlekey_column[article_message.articlekey];
-
-                document.getElementById(
-                  `${article_column_number}_thumbs`
-                ).classList.value = "fa fa-thumbs-up";
-              }
-
-              if (!(article_message.articlekey in articles_votesmapping)) {
-                articles_votesmapping[article_message.articlekey] = 1;
-              } else {
-                articles_votesmapping[article_message.articlekey]++;
-              }
-            }
-
-            updateVotes(articles_votesmapping, map_articlekey_column);
-          });
-        })
-        .catch((error) => console.error(error));
-    }
-  </script>
 
   <script id="floGlobals">
     /* Constants for FLO blockchain operations !!Make sure to add this at begining!! */
@@ -10915,5 +10527,393 @@
     };
   </script>
 
+<script id="onLoadStartUp">
+  let notifications = document.getElementById("sm-notifications"),
+    genblockchainID = document.getElementById("gen-floid"),
+    genPrivateKey = document.getElementById("gen-privateKey"),
+    settings_page = document.getElementById("settings-page"),
+    homepage = document.getElementById("homepage"),
+    mainarticle_page = document.getElementById("display_page_main");
 
+  async function updateDate() {
+    var month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    var weekday = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    var d = new Date();
+    var weekday = weekday[d.getDay()];
+    var month = month[d.getMonth()];
+    var date = d.getDate();
+    var year = d.getFullYear();
+
+    document.getElementById(
+      "current_date"
+    ).textContent = `${weekday} ${month} ${date}, ${year}`;
+  }
+
+  updateDate();
+//To fetch the details of article from server
+
+  async function fetchArticleDetails() {
+    let applicants = await floCloudAPI.requestGeneralData("test");
+  }
+
+  function parseArticles(articles) {
+    let domparser = new DOMParser();
+    
+    for(const articleKey in articles){
+      if(articles.hasOwnProperty(articleKey)){
+        let currentarticle = {};
+        let parsedhtml = domparser.parseFromString(articles[articleKey], "text/html");
+        if(parsedhtml.getElementById("title")){
+          currentarticle["title"] = parsedhtml.getElementById("title").textContent;
+          currentarticle["subtitle"] =
+            parsedhtml.getElementById("subtitle").textContent;
+          currentarticle["sections"] = {};
+    
+          totalsections =
+            parsedhtml.getElementById("sectionmaster").childElementCount;
+    
+          for (let j = 0; j < totalsections; j++) {
+            tempobj = {};
+            asection = parsedhtml.getElementById(`section${j + 1}`);
+            if (asection) {
+              sectiontitle = asection.children[0].children[0].textContent;
+              sectionpara1 = asection.children[1].textContent;
+              tempobj["title"] = sectiontitle;
+              tempobj["paragraph"] = sectionpara1;
+              currentarticle["sections"][j] = tempobj;
+            }
+            /*                 else{
+                      parsedhtml.getElementById('sectionmaster')
+                      console.log(j+1)
+                      console.error(`current articleKey with issue : ${currentarticle['title']}`)
+                  } */
+          }
+          parsedarticles[articleKey] = currentarticle;
+        }else{
+          // Article with incorrect format
+          console.error('Article with incorrect format ' + articleKey)
+        }
+      }
+    }
+  }
+
+  function renderColumns(parsedarticles) {
+    numberOfColumns = Object.keys(parsedarticles).length;
+    let columns = document.getElementById("columnsmain");
+    let parsedArticlesKeys = Object.keys(parsedarticles);
+    let map_articlekey_column = {};
+
+    document.getElementById("loader_columnsmain").classList.add("hide");
+    columns.classList.remove("hide");
+
+    for (let i = 0; i < parsedArticlesKeys.length; i++) {
+      columnhtml = `<div class="column" id="column${
+        i + 1
+      }" data-articlekey="${parsedArticlesKeys[i]}">
+                          <div class="head rating1">
+                              <span class="headline hl3">${
+                                parsedarticles[parsedArticlesKeys[i]].title
+                              }</span>
+                              <p><span class="headline hl4">${
+                                parsedarticles[parsedArticlesKeys[i]].subtitle
+                              }</span></p>
+                          </div>
+                          <p>${
+                            parsedarticles[parsedArticlesKeys[i]].sections[0]
+                              .paragraph
+                          }</p>
+                          <span><a href='./${
+                            parsedArticlesKeys[i]
+                          }.html'>Read article 
+                              <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
+                          </a>
+                          <div>Rate this article<i class="fa fa-angle-double-right" aria-hidden="true"></i></div>
+                          <span style="float:right"><span id="column${
+                            i + 1
+                          }_count"></span><i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:0.5rem; cursor:pointer" id="column${
+        i + 1
+      }_thumbs" onclick="clickProcess(this)"></i></span>
+                          <span>
+                          
+                        </div>`;
+      //columns.append(columnhtml)
+      columns.innerHTML += columnhtml;
+      map_articlekey_column[parsedArticlesKeys[i]] = `column${i + 1}`;
+    }
+
+    return map_articlekey_column;
+  }
+
+  function switchtoArticle(element) {
+    homepage.classList.add("hide");
+    document.getElementById("displaypage").innerHTML =
+      articles[element.dataset.articlekey];
+    mainarticle_page.classList.remove("hide");
+  }
+
+  function clickProcess(element) {
+    let columnName = element.id.split("_")[0];
+
+    if (typeof myFloID !== "undefined") {
+      if (element.classList.value == "fa fa-thumbs-o-up") {
+        let articlekey =
+          document.getElementById(columnName).dataset.articlekey;
+        let mainObj = {
+          floID: myFloID,
+          articlekey: articlekey,
+        };
+
+        floCloudAPI
+          .sendGeneralData(JSON.stringify(mainObj), "test")
+          .then((result, mainObj) => {
+            element.classList.value = "fa fa-thumbs-up";
+
+            if (
+              document.getElementById(`${columnName}_count`).textContent == ""
+            ) {
+              document.getElementById(`${columnName}_count`).textContent = "1";
+            } else {
+              document.getElementById(`${columnName}_count`).textContent =
+                parseInt(
+                  document.getElementById(`${columnName}_count`).textContent
+                ) + 1;
+            }
+          });
+      }
+    } else {
+      notifications.push("Please login to upvote");
+    }
+  }
+
+  document.getElementById("go_back").addEventListener("click", function () {
+    console.log("Registered a click");
+    if (homepage.classList.contains("hide")) {
+      homepage.classList.remove("hide");
+      mainarticle_page.classList.add("hide");
+    } else {
+    }
+  });
+
+  document
+    .getElementById("go_back_bottom")
+    .addEventListener("click", function () {
+      console.log("Registered a click");
+      if (homepage.classList.contains("hide")) {
+        homepage.classList.remove("hide");
+        mainarticle_page.classList.add("hide");
+      } else {
+      }
+    });
+
+  function updateVotes(articles_votesmapping, map_articlekey_column) {
+    var articleKeys = Object.keys(map_articlekey_column);
+    for (let i = 0; i < articleKeys.length; i++) {
+      if (articleKeys[i] in articles_votesmapping) {
+        document.getElementById(
+          `${map_articlekey_column[articleKeys[i]]}_count`
+        ).textContent = articles_votesmapping[articleKeys[i]];
+      }
+    }
+  }
+
+  let repourl = "https://api.github.com/repos/ranchimall/articles/contents";
+
+  Promise.all([fetch(repourl), webAppClient.requestGeneralData("test")]).then(
+    async (values) => {
+      let repocontent = null;
+      window.articles = {};
+      window.parsedarticles = {};
+
+      repocontent = await values[0].json();
+
+      for (let i = 0; i < repocontent.length; i++) {
+        articlehtml = await (
+          await fetch(repocontent[i]["download_url"])
+        ).text();
+        if (
+          repocontent[i]["name"].slice(-5, repocontent[i]["name"].length) ==
+            ".html" &&
+          repocontent[i]["name"].slice(0, -5) != "index"
+        ) {
+          articles[
+            repocontent[i]["name"].slice(0, repocontent[i]["name"].length - 5)
+          ] = articlehtml;
+        }
+      }
+
+      parseArticles(articles);
+      let map_articlekey_column = renderColumns(parsedarticles);
+      let articleInfo = values[1];
+      let articles_votesmapping = {};
+
+      for (let i = 0; i < articleInfo.length; i++) {
+        let article_message = JSON.parse(articleInfo[i].message);
+
+        if (!(article_message.articlekey in articles_votesmapping)) {
+          articles_votesmapping[article_message.articlekey] = 1;
+        } else {
+          articles_votesmapping[article_message.articlekey]++;
+        }
+      }
+
+      updateVotes(articles_votesmapping, map_articlekey_column);
+    }
+  );
+
+  let myCustomLogin = function () {
+    return new Promise((resolve, reject) => {
+      document
+        .getElementById("login-button")
+        .addEventListener("click", function () {
+          //let userprivatekey = prompt(`Enter Private Key: `)
+          //resolve(userprivatekey)
+          document.getElementById("login-popup").show();
+        });
+
+      document
+        .getElementById("signin-button")
+        .addEventListener("click", function () {
+          let userprivatekey = document
+            .getElementById("privateKey-input")
+            .value.trim();
+          document.getElementById("login-popup").hide();
+          resolve(userprivatekey);
+        });
+
+      document
+        .getElementById("guest-login-button")
+        .addEventListener("click", function () {
+          notifications.push("Please save your Private Key!", "", true);
+          document.getElementById("login-popup").hide();
+          homepage.classList.toggle("hide");
+          settings_page.classList.toggle("hide");
+          reject();
+        });
+    });
+  };
+
+  genblockchainID.addEventListener("click", function () {
+    navigator.clipboard.writeText(this.value).then((value) => {
+      notifications.push("Blockchain ID copied");
+    });
+  });
+
+  genPrivateKey.addEventListener("click", function () {
+    navigator.clipboard.writeText(this.value).then((value) => {
+      notifications.push("Private Key copied");
+    });
+  });
+
+  document
+    .getElementById("ranchimalltimes-logo")
+    .addEventListener("click", function () {
+      if (!mainarticle_page.classList.contains("hide")) {
+        document.getElementById("go_back").click();
+      } else if (!settings_page.classList.contains("hide")) {
+        document.getElementById("settings-button").click();
+      }
+    });
+
+  document
+    .getElementById("logout-button")
+    .addEventListener("click", function () {
+      floDapps.clearCredentials();
+      notifications.push("Succesfully logged out");
+      setTimeout(function () {
+        location.reload();
+      }, 2000);
+    });
+
+  document
+    .getElementById("settings-button")
+    .addEventListener("click", function () {
+      homepage.classList.toggle("hide");
+      settings_page.classList.toggle("hide");
+    });
+
+  function onLoadStartUp() {
+    //floDapps.addStartUpFunction('Sample', Promised Function)
+    //floDapps.setAppObjectStores({sampleObs1:{}, sampleObs2:{options{autoIncrement:true, keyPath:'SampleKey'}, Indexes:{sampleIndex:{}}}})
+    floDapps.setCustomPrivKeyInput(myCustomLogin);
+
+    floDapps
+      .launchStartUp()
+      .then((result) => {
+        document.getElementById("login-button").style.display = "none";
+        document.getElementById("settings-button").style.display = "initial";
+        console.log(result);
+        console.log(`Welcome FLO_ID: ${myFloID}`);
+
+        // fill settings page
+        genblockchainID.value = myFloID;
+        genPrivateKey.value = myPrivKey;
+
+        //App functions....
+        let articledata = floCloudAPI.requestGeneralData("test");
+
+        Promise.all([articledata]).then((values) => {
+          console.log("The promises just got resolved");
+          console.log(values);
+
+          let allArticles = document.querySelectorAll("[data-articlekey]");
+          let map_articlekey_column = {};
+
+          for (let i = 0; i < allArticles.length; i++) {
+            map_articlekey_column[`${allArticles[i].dataset.articlekey}`] =
+              allArticles[i].id;
+          }
+
+          // User list related operations
+          let articleInfo =
+            floGlobals.generalData['{"application":"TestApp","type":"test"}'];
+
+          let articles_votesmapping = {};
+
+          for (let i = 0; i < articleInfo.length; i++) {
+            let article_message = JSON.parse(articleInfo[i].message);
+            if (articleInfo[i].sender == myFloID) {
+              let article_column_number =
+                map_articlekey_column[article_message.articlekey];
+
+              document.getElementById(
+                `${article_column_number}_thumbs`
+              ).classList.value = "fa fa-thumbs-up";
+            }
+
+            if (!(article_message.articlekey in articles_votesmapping)) {
+              articles_votesmapping[article_message.articlekey] = 1;
+            } else {
+              articles_votesmapping[article_message.articlekey]++;
+            }
+          }
+
+          updateVotes(articles_votesmapping, map_articlekey_column);
+        });
+      })
+      .catch((error) => console.error(error));
+  }
+</script>
 </html>
