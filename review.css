@@ -4,9 +4,10 @@
     justify-content: center;
     padding-left:1em;
     }
-    
+
     .rating>input {
-    display: none
+    display: none;
+    color: rgb(241, 106, 106);
     }
     
     .rating>label {
@@ -35,4 +36,8 @@
     .rating:hover>input:checked~label:before {
     opacity: 0.4
     }
-    
+.thank{
+    transition: ease-in;
+    transition-delay: 2s;
+}
+      
