@@ -17,9 +17,9 @@
     <script src="components.js"></script>
   </head>
 <sm-popup id="rating-pop">
-  <h2>Welcome to Ranchimall Times</h2><br>
+  <h2 style="text-align: center;">Welcome to Ranchimall Times</h2><br>
   <h4 style="text-align: center;">Did you like the Article?<br>Please rate below</h4>
-  <div class="rating" onclick="ratethank()"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
+  <div class="rating" onclick="ratethank(this)"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
     <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
     <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
     <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
@@ -27,6 +27,8 @@
   </div>
 
   <div id="thank"></div>
+  <div id="thank1"></div>
+
 </sm-popup>
   <body translate="no" onload="onLoadStartUp()">
     <sm-notifications id="sm-notifications"></sm-notifications>
@@ -10602,7 +10604,8 @@
           currentarticle["subtitle"] =
             parsedhtml.getElementById("subtitle").textContent;
           currentarticle["sections"] = {};
-    
+          
+          
           totalsections =
             parsedhtml.getElementById("sectionmaster").childElementCount;
     
@@ -10753,10 +10756,37 @@
   function ratestar(){
    document.getElementById('rating-pop').show();
   }
-  function ratethank(){
+  function ratethank(article){
     document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'>Thanks for your precious response!!</h3>"
-    setTimeout(()=>{document.getElementById('thank').innerHTML=""},100000)  }
-  let repourl = "https://api.github.com/repos/ranchimall/articles/contents";
+    if(document.getElementById('5').checked){
+      document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
+      //saverating(5)
+    }else{
+      if(document.getElementById('4').checked){
+        document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
+        //saverating(4)
+      }
+      else{
+        if(document.getElementById('3').checked){
+          document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>We appreciate your feedback :)</h3>"
+         // saverating(3)
+        }else{
+          if(document.getElementById('2').checked){
+            document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
+            //saverating(2)
+          }else{if(document.getElementById('1').checked){
+            document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
+           // saverating(1)
+
+          }
+
+          }
+        }
+      }
+    }
+    }
+  
+    let repourl = "https://api.github.com/repos/ranchimall/articles/contents";
 
   Promise.all([fetch(repourl), webAppClient.requestGeneralData("test")]).then(
     async (values) => {
