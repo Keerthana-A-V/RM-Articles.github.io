@@ -38,6 +38,26 @@
     }
 .thank{
     transition: ease-in;
-    transition-delay: 2s;
+    transition-delay: 10s;
 }
-      
+
+.primary{
+    background-color: rgb(238, 117, 238);
+    border-radius: 5px;
+    color: white;
+    width: 30%;
+    align-self: center;
+    margin-left: 33%;
+    margin-right: 33%;
+}
+.primary:hover{
+    box-shadow: 10px 10px 10px rgb(226, 226, 226);
+    
+}
+@media screen and (max-width:900px){
+    .star{
+        height: 40%;
+        width: 40%;
+    }
+   
+}      

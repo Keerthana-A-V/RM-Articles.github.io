@@ -19,12 +19,14 @@
 <sm-popup id="rating-pop">
   <h2 style="text-align: center;">Welcome to Ranchimall Times</h2><br>
   <h4 style="text-align: center;">Did you like the Article?<br>Please rate below</h4>
-  <div class="rating" onclick="ratethank(this)"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
-    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
-    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
-    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
-    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+  <div class="rating" >
+    <input type="radio" name="rating" value="5" id="5"><label for="5" class="star">☆</label> 
+     <input type="radio" name="rating" value="4" id="4"><label for="4" class="star">☆</label> 
+    <input type="radio" name="rating" value="3" id="3"><label for="3" class="star">☆</label> 
+    <input type="radio" name="rating" value="2" id="2"><label for="2" class="star">☆</label> 
+    <input type="radio" name="rating" value="1" id="1"><label for="1" class="star">☆</label>
   </div>
+  <sm-button onclick="ratethank(this)" class="primary" align="center" style="color: white;">SUBMIT</sm-button>
 
   <div id="thank"></div>
   <div id="thank1"></div>
@@ -10756,8 +10758,9 @@
   function ratestar(){
    document.getElementById('rating-pop').show();
   }
-  function ratethank(article){
-    document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'>Thanks for your precious response!!</h3>"
+  function ratethank(){
+    if(typeof myFloID !== "undefined"){
+    document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Thanks for your precious response!!</h3>"
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
       //saverating(5)
@@ -10778,12 +10781,19 @@
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
            // saverating(1)
 
+          }else{
+            document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Please select a star to rate</h3>"
           }
 
           }
         }
       }
     }
+  }else{
+    document.getElementById('rating-pop').hide();
+    notifications.push("Please login to Rate the articles!");
+    
+  }
     }
   
     let repourl = "https://api.github.com/repos/ranchimall/articles/contents";
