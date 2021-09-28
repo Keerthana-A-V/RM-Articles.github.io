@@ -26,7 +26,7 @@
     <input type="radio" name="rating" value="2" id="2"><label for="2" class="star">☆</label> 
     <input type="radio" name="rating" value="1" id="1"><label for="1" class="star">☆</label>
   </div>
-  <sm-button onclick="ratethank(this)" class="primary" align="center" style="color: white;">SUBMIT</sm-button>
+  <sm-button onclick="ratethank()" class="primary" align="center">SUBMIT</sm-button>
 
   <div id="thank"></div>
   <div id="thank1"></div>
@@ -10642,7 +10642,8 @@
     let parsedArticlesKeys = Object.keys(parsedarticles);
     let map_articlekey_column = {};
 
-    document.getElementById("loader_columnsmain").classList.add("hide");
+    document.getElementById("loader_columnsmain").classList.add("hide"
+    );
     columns.classList.remove("hide");
 
     for (let i = 0; i < parsedArticlesKeys.length; i++) {
@@ -10682,6 +10683,26 @@
 
     return map_articlekey_column;
   }
+
+
+  function saverating(num) {
+    let msg={floID:myFloID};
+
+msg1=JSON.stringify(msg);
+  floCloudAPI.sendGeneralData(num,msg1).then(function(value){
+    alert("data sent successfully");
+  },function(error){
+    alert("unsuccessfull")
+  })
+
+  floCloudAPI.requestGeneralData(msg1).then(function(value){
+console.log(value)
+  },function(error){
+    console.log(error);
+  }
+  )
+}
+
 
   function switchtoArticle(element) {
     homepage.classList.add("hide");
@@ -10763,23 +10784,23 @@
     document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Thanks for your precious response!!</h3>"
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
-      //saverating(5)
+      saverating('5')
     }else{
       if(document.getElementById('4').checked){
         document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
-        //saverating(4)
+        saverating('4')
       }
       else{
         if(document.getElementById('3').checked){
           document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>We appreciate your feedback :)</h3>"
-         // saverating(3)
+          saverating('3')
         }else{
           if(document.getElementById('2').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
-            //saverating(2)
+            saverating('2')
           }else{if(document.getElementById('1').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
-           // saverating(1)
+            saverating('1')
 
           }else{
             document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Please select a star to rate</h3>"
@@ -10974,3 +10995,8 @@
   }
 </script>
 </html>
+
+
+
+
+
