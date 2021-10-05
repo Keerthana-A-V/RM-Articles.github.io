@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="review.css">
     <script src="components.js"></script>
+
   </head>
 <sm-popup id="rating-pop">
   <h2 style="text-align: center;">Welcome to Ranchimall Times</h2><br>
@@ -10686,17 +10687,19 @@
 
 
   function saverating(num) {
-    let msg={floID:myFloID};
 
-msg1=JSON.stringify(msg);
+    count++;
+    let msg={floID:myFloID,avg:(num/count),count:count};
+
+  msg1=JSON.stringify(msg);
   floCloudAPI.sendGeneralData(num,msg1).then(function(value){
     alert("data sent successfully");
   },function(error){
-    alert("unsuccessfull")
+    alert("unsuccessfull");
   })
 
   floCloudAPI.requestGeneralData(msg1).then(function(value){
-console.log(value)
+console.log(value)    
   },function(error){
     console.log(error);
   }
@@ -10785,22 +10788,37 @@ console.log(value)
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
       saverating('5')
+      floCloudAPI.sendGeneralData(count).then(function(value){
+      count++;
+    })
     }else{
       if(document.getElementById('4').checked){
         document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
         saverating('4')
+        floCloudAPI.sendGeneralData(count).then(function(value){
+      count++;
+    })
       }
       else{
         if(document.getElementById('3').checked){
           document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>We appreciate your feedback :)</h3>"
           saverating('3')
+          floCloudAPI.sendGeneralData(count).then(function(value){
+      count++;
+    })
         }else{
           if(document.getElementById('2').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
             saverating('2')
+            floCloudAPI.sendGeneralData(count).then(function(value){
+      count++;
+    })
           }else{if(document.getElementById('1').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
             saverating('1')
+            floCloudAPI.sendGeneralData(count).then(function(value){
+      count++;
+    })
 
           }else{
             document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Please select a star to rate</h3>"

@@ -59,5 +59,12 @@
         height: 40%;
         width: 40%;
     }
-   
+    .rating>label {
+        position: relative;
+        width: 1em;
+        font-size: 7vw;
+        color: #ffd500;
+        cursor: pointer;
+        justify-content: center;
+        }
 }      
