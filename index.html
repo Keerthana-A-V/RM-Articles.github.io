@@ -10668,7 +10668,10 @@
                           }.html'>Read article 
                               <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
                           </a>
-                          <div class="ratecol heart" style="color:rgb(241, 106, 106);cursor:pointer;" onclick="ratestar(this)">Rate this article <img  src="https://img.icons8.com/ios/25/000000/hand-drawn-star.png" / ></div>
+                          <div class="ratecol heart" style="color:rgb(241, 106, 106);cursor:pointer;" onclick="ratestar(this)">Rate this article <img  src="https://img.icons8.com/ios/25/000000/hand-drawn-star.png" / >
+                        <span class="dispnum">  <span>( </span><span id="column${
+                            i + 1
+                          }_count"></span><span> )</span></span></div>
                           <span style="float:right"><span id="column${
                             i + 1
                           }_count"></span><i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:0.5rem; cursor:pointer" id="column${
@@ -10788,14 +10791,14 @@ console.log(value)
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
       saverating('5')
-      floCloudAPI.sendGeneralData(count).then(function(value){
+      floCloudAPI.sendGeneralData('5').then(function(value){
       count++;
     })
     }else{
       if(document.getElementById('4').checked){
         document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
         saverating('4')
-        floCloudAPI.sendGeneralData(count).then(function(value){
+        floCloudAPI.sendGeneralData('4').then(function(value){
       count++;
     })
       }
@@ -10803,20 +10806,20 @@ console.log(value)
         if(document.getElementById('3').checked){
           document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>We appreciate your feedback :)</h3>"
           saverating('3')
-          floCloudAPI.sendGeneralData(count).then(function(value){
+          floCloudAPI.sendGeneralData('3').then(function(value){
       count++;
     })
         }else{
           if(document.getElementById('2').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
             saverating('2')
-            floCloudAPI.sendGeneralData(count).then(function(value){
+            floCloudAPI.sendGeneralData('2').then(function(value){
       count++;
     })
           }else{if(document.getElementById('1').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
             saverating('1')
-            floCloudAPI.sendGeneralData(count).then(function(value){
+            floCloudAPI.sendGeneralData('1').then(function(value){
       count++;
     })
 

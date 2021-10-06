@@ -54,6 +54,11 @@
     box-shadow: 10px 10px 10px rgb(226, 226, 226);
     
 }
+
+.dispnum{
+    color: gray;
+    font-family: cursive;
+}
 @media screen and (max-width:900px){
     .star{
         height: 40%;
