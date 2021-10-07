@@ -27,7 +27,7 @@
     <input type="radio" name="rating" value="2" id="2"><label for="2" class="star">☆</label> 
     <input type="radio" name="rating" value="1" id="1"><label for="1" class="star">☆</label>
   </div>
-  <sm-button onclick="ratethank()" class="primary" align="center">SUBMIT</sm-button>
+  <sm-button  id="thanku" class="primary" align="center">SUBMIT</sm-button>
 
   <div id="thank"></div>
   <div id="thank1"></div>
@@ -10669,9 +10669,9 @@
                               <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
                           </a>
                           <div class="ratecol heart" style="color:rgb(241, 106, 106);cursor:pointer;" onclick="ratestar(this)">Rate this article <img  src="https://img.icons8.com/ios/25/000000/hand-drawn-star.png" / >
-                        <span class="dispnum">  <span>( </span><span id="column${
-                            i + 1
-                          }_count"></span><span> )</span></span></div>
+                        <span class="dispnum">  <span>( </span><span class="heart" id="column${i + 1}_count1"></span>
+                        <span> )</span></span></div>
+                          
                           <span style="float:right"><span id="column${
                             i + 1
                           }_count"></span><i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:0.5rem; cursor:pointer" id="column${
@@ -10681,32 +10681,50 @@
                           
                         </div>`;
       //columns.append(columnhtml)
+
       columns.innerHTML += columnhtml;
       map_articlekey_column[parsedArticlesKeys[i]] = `column${i + 1}`;
+      document.getElementById(`column${i + 1}_count1`).innerHTML="2.0";
+
     }
 
     return map_articlekey_column;
   }
 
 
-  function saverating(num) {
+  function saverating(num,element){
+  let columnName = element.id.split("_")[0];
 
-    count++;
-    let msg={floID:myFloID,avg:(num/count),count:count};
+  if (typeof myFloID !== "undefined"){
+    if (element.classList.value  == "heart") {
+      let articlekey =
+      document.getElementById(columnName).dataset.articlekey;
+    let mainObj = {
+      floID: myFloID,
+      articlekey: articlekey
+    };
 
-  msg1=JSON.stringify(msg);
-  floCloudAPI.sendGeneralData(num,msg1).then(function(value){
-    alert("data sent successfully");
-  },function(error){
-    alert("unsuccessfull");
-  })
 
-  floCloudAPI.requestGeneralData(msg1).then(function(value){
-console.log(value)    
-  },function(error){
-    console.log(error);
-  }
-  )
+    floCloudAPI
+    .sendGeneralData(JSON.stringify(mainObj), "test1")
+    .then((value) => {
+      element.classList.value = "heart";
+    
+    if (
+      document.getElementById(`${columnName}_count1`).textContent == ""
+    ) {
+      document.getElementById(`${columnName}_count1`).textContent = num;
+    } else {
+      document.getElementById(`${columnName}_count1`).textContent =
+        parseInt(
+          document.getElementById(`${columnName}_count1`).textContent
+        ) +num;
+    }
+  });
+}
+} else {
+notifications.push("Please login to Rate");
+}
 }
 
 
@@ -10721,7 +10739,7 @@ console.log(value)
     let columnName = element.id.split("_")[0];
 
     if (typeof myFloID !== "undefined") {
-      if (element.classList.value == "fa fa-thumbs-o-up") {
+      if (element.classList.value  == "fa fa-thumbs-o-up") {
         let articlekey =
           document.getElementById(columnName).dataset.articlekey;
         let mainObj = {
@@ -10781,23 +10799,53 @@ console.log(value)
       }
     }
   }
-
-  function ratestar(){
+  function ratestar(element){
    document.getElementById('rating-pop').show();
-  }
-  function ratethank(){
+   document.getElementById('thanku').addEventListener('click',()=>{
     if(typeof myFloID !== "undefined"){
     document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Thanks for your precious response!!</h3>"
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
-      saverating('5')
+      saverating('5',element)
+    }else{
+      if(document.getElementById('4').checked){
+        document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
+        saverating('4',element)
+      }
+      else{
+        if(document.getElementById('3').checked){
+          document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>We appreciate your feedback :)</h3>"
+          saverating('3',element)
+        }
+        else
+        {
+          if(document.getElementById('2').checked){
+            document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
+            saverating('2',element)
+        }else
+          {
+            if(document.getElementById('1').checked){
+            document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
+            saverating('1',element)
+          }else{
+            document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Please select a star to rate</h3>"
+          }          }        }   }}
+        
+  }})}
+
+ /* function ratethank(){
+    if(typeof myFloID !== "undefined"){
+    document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Thanks for your precious response!!</h3>"
+    if(document.getElementById('5').checked){
+      document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
+      saverating('5',this)
       floCloudAPI.sendGeneralData('5').then(function(value){
       count++;
     })
     }else{
       if(document.getElementById('4').checked){
         document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
-        saverating('4')
+        saverating('4',this)
         floCloudAPI.sendGeneralData('4').then(function(value){
       count++;
     })
@@ -10805,20 +10853,20 @@ console.log(value)
       else{
         if(document.getElementById('3').checked){
           document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>We appreciate your feedback :)</h3>"
-          saverating('3')
+          saverating('3',this)
           floCloudAPI.sendGeneralData('3').then(function(value){
       count++;
     })
         }else{
           if(document.getElementById('2').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
-            saverating('2')
+            saverating('2',this)
             floCloudAPI.sendGeneralData('2').then(function(value){
       count++;
     })
           }else{if(document.getElementById('1').checked){
             document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> We will try to improve :)</h3>"
-            saverating('1')
+            saverating('1',this)
             floCloudAPI.sendGeneralData('1').then(function(value){
       count++;
     })
@@ -10836,7 +10884,7 @@ console.log(value)
     notifications.push("Please login to Rate the articles!");
     
   }
-    }
+    }*/
   
     let repourl = "https://api.github.com/repos/ranchimall/articles/contents";
 
