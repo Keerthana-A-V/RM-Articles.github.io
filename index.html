@@ -10699,11 +10699,10 @@
       articlekey: articlekey,
       stars:num
     };
-
-    floCloudAPI
-    .sendGeneralData(JSON.stringify(mainObj), "test1")
-    .then((value) => {
-      ele2.classList.value = "heart";
+    floGlobals.appObjects["mainObj"]=mainObj;
+floCloudAPI.updateObjectData("mainObj").then(
+  function(value){
+    ele2.classList.value = "heart";
    if (
       document.getElementById(`${columnName}_count1`).textContent == ""
     ) {
@@ -10714,10 +10713,27 @@
           document.getElementById(`${columnName}_count1`).textContent
         ) +num;
     }
+  }
+)
+
+    floCloudAPI
+    .sendGeneralData(JSON.stringify(mainObj), "test1")
+    .then((value) => {
+   /*   ele2.classList.value = "heart";
+   if (
+      document.getElementById(`${columnName}_count1`).textContent == ""
+    ) {
+      document.getElementById(`${columnName}_count1`).textContent = num;
+    } else {
+      document.getElementById(`${columnName}_count1`).textContent =
+        parseInt(
+          document.getElementById(`${columnName}_count1`).textContent
+        ) +num;
+    }*/
   });
-  floCloudAPI.requestGeneralData('test1',mainObj).then(
+  floCloudAPI.requestGeneralData('test1',JSON.stringify(mainObj)).then(
       function(value){
-        console.log(value)
+        //console.log(value)
       }
     )
 }
@@ -10736,8 +10752,6 @@ notifications.push("Please login to Rate");
 
   function clickProcess(element) {
     let columnName = element.id.split("_")[0];
-alert(columnName)
-alert( element.id)
     if (typeof myFloID !== "undefined") {
       if (element.classList.value  == "fa fa-thumbs-o-up") {
         let articlekey =
@@ -10799,6 +10813,7 @@ alert( element.id)
       }
     }
   }
+  
   let ele1;
   function ratestar(ele){
   document.getElementById('rating-pop').show();
@@ -10877,6 +10892,7 @@ alert( element.id)
       let map_articlekey_column = renderColumns(parsedarticles);
       let articleInfo = values[1];
       let articles_votesmapping = {};
+      let articles_ratemapping={};
 
       for (let i = 0; i < articleInfo.length; i++) {
         let article_message = JSON.parse(articleInfo[i].message);
