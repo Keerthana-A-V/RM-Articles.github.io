@@ -10712,17 +10712,25 @@
       document.getElementById(`${columnName}_count1`).textContent =
         parseInt(
           document.getElementById(`${columnName}_count1`).textContent
-        ) +num;
+        ) +(num);
     }
   });
   floCloudAPI.requestGeneralData('test1',JSON.stringify(mainObj)).then(
       function(value){
         //console.log(value)
+       /* let val=value;
+Promise.all(val).then(
+  function(value){
+    alert(Object.getOwnPropertyNames(val))
+  },
+  function(error){
+    alert(error);
+  }*/
+)
+
       }
     )
 }
-updateVotes1(articles_votesmapping, map_articlekey_column);
-
 } else {
 notifications.push("Please login to Rate");
 }
@@ -10799,17 +10807,6 @@ notifications.push("Please login to Rate");
       }
     }
   }
-
-  function updateVotes1(articles_ratemapping, map_articlekey_column) {
-    var articleKeys = Object.keys(map_articlekey_column);
-    for (let i = 0; i < articleKeys.length; i++) {
-      if (articleKeys[i] in articles_ratemapping) {
-        document.getElementById(
-          `${map_articlekey_column[articleKeys[i]]}_count1`
-        ).textContent = articles_ratemapping[articleKeys[i]];
-      }
-    }
-  }
   
   let ele1;
   function ratestar(ele){
@@ -10823,11 +10820,11 @@ notifications.push("Please login to Rate");
     document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Thanks for your precious response!!</h3>"
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
-      saverating('5',ele1)
+      saverating(5,ele1)
     }else{
       if(document.getElementById('4').checked){
         document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
-        saverating('4',ele1)
+        saverating(4,ele1)
        
       }
       else{
@@ -10889,7 +10886,6 @@ notifications.push("Please login to Rate");
       let map_articlekey_column = renderColumns(parsedarticles);
       let articleInfo = values[1];
       let articles_votesmapping = {};
-      let articles_ratemapping={};
 
       for (let i = 0; i < articleInfo.length; i++) {
         let article_message = JSON.parse(articleInfo[i].message);
@@ -10900,10 +10896,9 @@ notifications.push("Please login to Rate");
           articles_votesmapping[article_message.articlekey]++;
         }
       }
-
-      updateVotes1(articles_votesmapping, map_articlekey_column);
     }
   );
+
 
   let myCustomLogin = function () {
     return new Promise((resolve, reject) => {
@@ -11033,6 +11028,7 @@ notifications.push("Please login to Rate");
           }
 
           updateVotes(articles_votesmapping, map_articlekey_column);
+
         });
       })
       .catch((error) => console.error(error));
