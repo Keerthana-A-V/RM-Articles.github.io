@@ -10683,7 +10683,8 @@
       columns.innerHTML += columnhtml;
       map_articlekey_column[parsedArticlesKeys[i]] = `column${i + 1}`;
     }
-
+    updateVotes(articles_votesmapping, map_articlekey_column);
+    updateratings(articles_ratesmapping,map_articlekey_column)
     return map_articlekey_column;
   }
 
@@ -10700,41 +10701,34 @@
       stars:num
     };
 
-    floCloudAPI
-    .sendGeneralData(JSON.stringify(mainObj), "test1")
-    .then((value) => {
+    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test1").then((value) => {
       ele2.classList.value = "heart";
    if (
       document.getElementById(`${columnName}_count1`).textContent == ""
     ) {
       document.getElementById(`${columnName}_count1`).textContent = num;
     } else {
-      document.getElementById(`${columnName}_count1`).textContent =
-        parseInt(
+      document.getElementById(`${columnName}_count1`).innerHTML =
+        Number(
           document.getElementById(`${columnName}_count1`).textContent
-        ) +(num);
+        )+Number(num);
     }
-  });
-  floCloudAPI.requestGeneralData('test1',JSON.stringify(mainObj)).then(
-      function(value){
-        //console.log(value)
-       /* let val=value;
-Promise.all(val).then(
-  function(value){
-    alert(Object.getOwnPropertyNames(val))
-  },
-  function(error){
-    alert(error);
-  }*/
-)
+    })
 
+    floCloudAPI.requestGeneralData('test1',(mainObj)).then({
+      function (value) {
+        let obj=JSON.parse(value);
+        console.log(Object.getOwnPropertyNames(obj));
+        console.log(obj.stars);
+        console.log(Number(obj.stars)+Number(num))
       }
-    )
-}
-} else {
+    });
+} 
+}else {
 notifications.push("Please login to Rate");
 }
-}
+  }
+
 
 
   function switchtoArticle(element) {
@@ -10820,11 +10814,11 @@ notifications.push("Please login to Rate");
     document.getElementById('thank').innerHTML="<h3 style='text-align:center' class='thank'><br>Thanks for your precious response!!</h3>"
     if(document.getElementById('5').checked){
       document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'>Hurray!! You liked Us!</h3>"
-      saverating(5,ele1)
+      saverating('5',ele1)
     }else{
       if(document.getElementById('4').checked){
         document.getElementById('thank1').innerHTML="<h3 style='text-align:center' class='thank'> Hurray!! You liked Us!</h3>"
-        saverating(4,ele1)
+        saverating('4',ele1)
        
       }
       else{
