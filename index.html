@@ -10683,8 +10683,6 @@
       columns.innerHTML += columnhtml;
       map_articlekey_column[parsedArticlesKeys[i]] = `column${i + 1}`;
     }
-    updateVotes(articles_votesmapping, map_articlekey_column);
-    updateratings(articles_ratesmapping,map_articlekey_column)
     return map_articlekey_column;
   }
 
@@ -10715,14 +10713,21 @@
     }
     })
 
-    floCloudAPI.requestGeneralData('test1',(mainObj)).then({
+    /*floCloudAPI.requestGeneralData('test1',(mainObj)).then(
       function (value) {
-        let obj=JSON.parse(value);
+       console.log(typeof(value));
+        let obj=value;
+       // obj1=JSON.parse(obj);
+        console.log("displaying stars");
         console.log(Object.getOwnPropertyNames(obj));
-        console.log(obj.stars);
-        console.log(Number(obj.stars)+Number(num))
+        console.log(obj.length);
+        for(i=0;i<obj.length;i++){
+        console.log(obj[i]);}
+      },
+      function (error) {
+        console.log("error");
       }
-    });
+    );*/
 } 
 }else {
 notifications.push("Please login to Rate");
@@ -10802,6 +10807,25 @@ notifications.push("Please login to Rate");
     }
   }
   
+  function updaterates(article_ratesmapping,map_articlekey_column1){
+  /*  var articlekeys =Object.keys(map_articlekey_column1);
+    for(let i=0;i<articlekeys.length;i++){
+      if(articlekeys[i] in article_ratesmapping){
+        document.getElementById(
+          `${map_articlekey_column1[articlekeys[i]]}_count1`
+        ).textContent = article_ratesmapping[articlekeys[i]];
+      }
+    }*/
+    floCloudAPI.requestGeneralData('type1').then(
+      function(value) {
+        x=JSON.parse(value.message);
+        document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`
+        ).textContent=x.stars;
+        console.log(x.stars)
+      }
+    )
+  }
+
   let ele1;
   function ratestar(ele){
   document.getElementById('rating-pop').show();
@@ -11022,11 +11046,49 @@ notifications.push("Please login to Rate");
           }
 
           updateVotes(articles_votesmapping, map_articlekey_column);
-
-        });
       })
       .catch((error) => console.error(error));
-  }
+
+      let articledata1 = floCloudAPI.requestGeneralData("test1");
+      Promise.all([articledata1]).then(
+        function(value){
+
+        console.log("Ratings promise resolved");
+
+          
+          let allArticles = document.querySelectorAll("[data-articlekey]");
+          let map_articlekey_column1 = {};
+
+          for (let i = 0; i < allArticles.length; i++) {
+            map_articlekey_column1[`${allArticles[i].dataset.articlekey}`] =
+              allArticles[i].id;
+          }
+                    //user ratings update onload
+                    let articleinfo1 =
+            floGlobals.generalData['{"application":"TestApp","type":"test"}'];
+          let article_ratesmapping={};
+
+          for(let i=0;i<articleinfo1.length;i++){
+            let article_msg=JSON.parse(articleinfo1[i].message);
+            if(articleinfo1[i].floID==myFloID){
+              let article_column_number1=map_articlekey_column1[article_msg.articlekey];
+              document.getElementById(
+                `${article_column_number}_hearts`
+              ).classList.value = "heart";
+            }
+            if(!(article_msg.articlekey in article_ratesmapping)){
+              article_ratesmapping[article_msg.articlekey]=1;
+            }else{
+              article_ratesmapping[article_msg.articlekey]++;
+            }
+
+          }
+
+          updaterates(article_ratesmapping,map_articlekey_column1);
+        })
+        }
+      )
+      }
 </script>
 </html>
 
