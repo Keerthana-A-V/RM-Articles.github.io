@@ -10702,7 +10702,7 @@
     floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test1").then((value) => {
       ele2.classList.value = "heart";
    if (
-      document.getElementById(`${columnName}_count1`).textContent == ""
+      document.getElementById(`${columnName}_count1`).textContent == "No Ratings yet"
     ) {
       document.getElementById(`${columnName}_count1`).textContent = num;
     } else {
@@ -10808,22 +10808,25 @@ notifications.push("Please login to Rate");
   }
   
   function updaterates(article_ratesmapping,map_articlekey_column1){
-  /*  var articlekeys =Object.keys(map_articlekey_column1);
+    var articlekeys =Object.keys(map_articlekey_column1);
     for(let i=0;i<articlekeys.length;i++){
-      if(articlekeys[i] in article_ratesmapping){
+     /* if(articlekeys[i] in article_ratesmapping){
         document.getElementById(
           `${map_articlekey_column1[articlekeys[i]]}_count1`
         ).textContent = article_ratesmapping[articlekeys[i]];
-      }
-    }*/
-    floCloudAPI.requestGeneralData('type1').then(
+      }*/
+        document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
+
+    }
+   /* floCloudAPI.requestGeneralData('type1').then(
       function(value) {
         x=JSON.parse(value.message);
         document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`
         ).textContent=x.stars;
         console.log(x.stars)
       }
-    )
+    )*/
+
   }
 
   let ele1;
@@ -11065,23 +11068,21 @@ notifications.push("Please login to Rate");
           }
                     //user ratings update onload
                     let articleinfo1 =
-            floGlobals.generalData['{"application":"TestApp","type":"test"}'];
+            floGlobals.generalData['{"application":"TestApp","type":"test1"}'];
           let article_ratesmapping={};
-
           for(let i=0;i<articleinfo1.length;i++){
             let article_msg=JSON.parse(articleinfo1[i].message);
-            if(articleinfo1[i].floID==myFloID){
+           /* if(articleinfo1[i].floID==myFloID){
               let article_column_number1=map_articlekey_column1[article_msg.articlekey];
               document.getElementById(
                 `${article_column_number}_hearts`
               ).classList.value = "heart";
+            }*/
+            if(article_msg.stars!= undefined){
+            console.log(article_msg);
+            console.log(article_msg.stars);
             }
-            if(!(article_msg.articlekey in article_ratesmapping)){
-              article_ratesmapping[article_msg.articlekey]=1;
-            }else{
-              article_ratesmapping[article_msg.articlekey]++;
-            }
-
+           starnum=article_msg.stars;
           }
 
           updaterates(article_ratesmapping,map_articlekey_column1);
