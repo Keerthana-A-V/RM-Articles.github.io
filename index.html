@@ -10698,7 +10698,6 @@
       articlekey: articlekey,
       stars:num
     };
-
     floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test1").then((value) => {
       ele2.classList.value = "heart";
    if (
@@ -10712,23 +10711,7 @@
         )+Number(num);
     }
     })
-
-    /*floCloudAPI.requestGeneralData('test1',(mainObj)).then(
-      function (value) {
-       console.log(typeof(value));
-        let obj=value;
-       // obj1=JSON.parse(obj);
-        console.log("displaying stars");
-        console.log(Object.getOwnPropertyNames(obj));
-        console.log(obj.length);
-        for(i=0;i<obj.length;i++){
-        console.log(obj[i]);}
-      },
-      function (error) {
-        console.log("error");
-      }
-    );*/
-} 
+  }
 }else {
 notifications.push("Please login to Rate");
 }
@@ -10808,25 +10791,12 @@ notifications.push("Please login to Rate");
   }
   
   function updaterates(article_ratesmapping,map_articlekey_column1){
+    console.log("hello")
     var articlekeys =Object.keys(map_articlekey_column1);
     for(let i=0;i<articlekeys.length;i++){
-     /* if(articlekeys[i] in article_ratesmapping){
-        document.getElementById(
-          `${map_articlekey_column1[articlekeys[i]]}_count1`
-        ).textContent = article_ratesmapping[articlekeys[i]];
-      }*/
+      console.log(`${map_articlekey_column1[articlekeys[i]]}_count1`);
         document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
-
     }
-   /* floCloudAPI.requestGeneralData('type1').then(
-      function(value) {
-        x=JSON.parse(value.message);
-        document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`
-        ).textContent=x.stars;
-        console.log(x.stars)
-      }
-    )*/
-
   }
 
   let ele1;
@@ -11067,25 +11037,22 @@ notifications.push("Please login to Rate");
               allArticles[i].id;
           }
                     //user ratings update onload
+                    let infoOfRate=floCloudAPI.requestGeneralData('test1');
+                    console.log(Promise.all([infoOfRate]));
                     let articleinfo1 =
             floGlobals.generalData['{"application":"TestApp","type":"test1"}'];
           let article_ratesmapping={};
           for(let i=0;i<articleinfo1.length;i++){
             let article_msg=JSON.parse(articleinfo1[i].message);
-           /* if(articleinfo1[i].floID==myFloID){
-              let article_column_number1=map_articlekey_column1[article_msg.articlekey];
-              document.getElementById(
-                `${article_column_number}_hearts`
-              ).classList.value = "heart";
-            }*/
-            if(article_msg.stars!= undefined){
-            console.log(article_msg);
-            console.log(article_msg.stars);
-            }
-           starnum=article_msg.stars;
           }
 
-          updaterates(article_ratesmapping,map_articlekey_column1);
+            if (!(article_msg.articlekey in articles_ratesmapping)) {
+              article_ratesmapping[article_msg.articlekey] = 1;
+            } else {
+              article_ratesmapping[article_msg.articlekey]++;
+            }
+
+          updaterates(article_ratesmapping,map_articlekey_column1)
         })
         }
       )
