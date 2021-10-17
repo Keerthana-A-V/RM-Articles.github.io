@@ -10791,11 +10791,9 @@ notifications.push("Please login to Rate");
   }
   
   function updaterates(article_ratesmapping,map_articlekey_column1){
-    console.log("hello")
     var articlekeys =Object.keys(map_articlekey_column1);
     for(let i=0;i<articlekeys.length;i++){
-      console.log(`${map_articlekey_column1[articlekeys[i]]}_count1`);
-        document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
+      document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
     }
   }
 
@@ -11019,6 +11017,7 @@ notifications.push("Please login to Rate");
           }
 
           updateVotes(articles_votesmapping, map_articlekey_column);
+
       })
       .catch((error) => console.error(error));
 
@@ -11037,23 +11036,25 @@ notifications.push("Please login to Rate");
               allArticles[i].id;
           }
                     //user ratings update onload
-                    let infoOfRate=floCloudAPI.requestGeneralData('test1');
-                    console.log(Promise.all([infoOfRate]));
                     let articleinfo1 =
             floGlobals.generalData['{"application":"TestApp","type":"test1"}'];
           let article_ratesmapping={};
           for(let i=0;i<articleinfo1.length;i++){
-            let article_msg=JSON.parse(articleinfo1[i].message);
+           let article_msg=((articleinfo1[i].message));
+           console.log(article_msg);
+          // console.log(JSON.parse(articleinfo1[i].message).articlekey);
+           let article_msg1=(JSON.parse(article_msg[i]).stars);
+           //console.log(articleinfo1[i].message);
           }
 
-            if (!(article_msg.articlekey in articles_ratesmapping)) {
-              article_ratesmapping[article_msg.articlekey] = 1;
+         /*   if (!(artic1le_msg1.articlekey in articles_ratesmapping)) {
+              article_ratesmapping[article_msg1.articlekey] = 1;
             } else {
-              article_ratesmapping[article_msg.articlekey]++;
-            }
+              article_ratesmapping[article_msg1.articlekey]++;
+            }*/
 
-          updaterates(article_ratesmapping,map_articlekey_column1)
-        })
+          updaterates(article_ratesmapping,map_articlekey_column1);
+        }).catch((error)=>{console.log(error)})
         }
       )
       }
