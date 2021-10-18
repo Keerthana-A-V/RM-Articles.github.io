@@ -10690,13 +10690,23 @@
   function saverating(num,ele2){
   let columnName = ele2.id.split("_")[0];
   if (typeof myFloID !== "undefined"){
+
+    a=floCloudAPI.requestGeneralData('test1');
+    //console.log(a);
+    Promise.all([floCloudAPI.requestGeneralData('test1')]).then(()=>{
+      console.log(a[i]);
+    })
+
+
+
     if (ele2.classList.value  == "heart") {
       let articlekey =
       document.getElementById(columnName).dataset.articlekey;
     let mainObj = {
       floID: myFloID,
       articlekey: articlekey,
-      stars:num
+      stars:num,
+      numOfrates:numOfstars+1
     };
     floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test1").then((value) => {
       ele2.classList.value = "heart";
@@ -11035,15 +11045,16 @@ notifications.push("Please login to Rate");
             map_articlekey_column1[`${allArticles[i].dataset.articlekey}`] =
               allArticles[i].id;
           }
+          let article_msg;
                     //user ratings update onload
                     let articleinfo1 =
             floGlobals.generalData['{"application":"TestApp","type":"test1"}'];
           let article_ratesmapping={};
           for(let i=0;i<articleinfo1.length;i++){
-           let article_msg=((articleinfo1[i].message));
-           console.log(article_msg);
-          // console.log(JSON.parse(articleinfo1[i].message).articlekey);
-           let article_msg1=(JSON.parse(article_msg[i]).stars);
+           article_msg=((articleinfo1[i].message));
+           //console.log((article_msg));
+             //console.log(JSON.parse(articleinfo1[i].message).stars);
+             //let article_msg1=(JSON.parse(article_msg[i]).stars);
            //console.log(articleinfo1[i].message);
           }
 
@@ -11054,7 +11065,7 @@ notifications.push("Please login to Rate");
             }*/
 
           updaterates(article_ratesmapping,map_articlekey_column1);
-        }).catch((error)=>{console.log(error)})
+        }).catch((error)=>{console.error(error)})
         }
       )
       }
