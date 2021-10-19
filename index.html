@@ -10686,19 +10686,9 @@
     return map_articlekey_column;
   }
 
-
   function saverating(num,ele2){
   let columnName = ele2.id.split("_")[0];
   if (typeof myFloID !== "undefined"){
-
-    a=floCloudAPI.requestGeneralData('test1');
-    //console.log(a);
-    Promise.all([floCloudAPI.requestGeneralData('test1')]).then(()=>{
-      console.log(a[i]);
-    })
-
-
-
     if (ele2.classList.value  == "heart") {
       let articlekey =
       document.getElementById(columnName).dataset.articlekey;
@@ -10706,7 +10696,7 @@
       floID: myFloID,
       articlekey: articlekey,
       stars:num,
-      numOfrates:numOfstars+1
+      //numOfrates:numOfstars+1
     };
     floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test1").then((value) => {
       ele2.classList.value = "heart";
@@ -11053,17 +11043,27 @@ notifications.push("Please login to Rate");
           for(let i=0;i<articleinfo1.length;i++){
            article_msg=((articleinfo1[i].message));
            //console.log((article_msg));
-             //console.log(JSON.parse(articleinfo1[i].message).stars);
+            // console.log(JSON.parse(articleinfo1[i].message).stars);
              //let article_msg1=(JSON.parse(article_msg[i]).stars);
            //console.log(articleinfo1[i].message);
           }
-
-         /*   if (!(artic1le_msg1.articlekey in articles_ratesmapping)) {
-              article_ratesmapping[article_msg1.articlekey] = 1;
+        /*  for(let i=0;i<articleinfo1.length;i++){
+        //  if(Object.keys(articleinfo1[i].message).includes('stars')){
+           if (!(article_msg.articlekey in article_ratesmapping)) {
+              ratesmapval=JSON.parse(articleinfo1[i].message).stars;
+              article_ratesmapping[article_msg.articlekey] =ratesmapval;
+              console.log(article_ratesmapping[article_msg.articlekey] )
             } else {
-              article_ratesmapping[article_msg1.articlekey]++;
-            }*/
+              ratesmapval1=JSON.parse(articleinfo1[i].message).stars;
+              article_ratesmapping[article_msg.articlekey]+=ratesmapval;
+              console.log(article_ratesmapping[article_msg.articlekey] )
 
+            }
+          }
+            else{
+              console.log("NA");
+            }
+          }*/
           updaterates(article_ratesmapping,map_articlekey_column1);
         }).catch((error)=>{console.error(error)})
         }
