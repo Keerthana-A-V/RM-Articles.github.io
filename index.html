@@ -10696,9 +10696,8 @@
       floID: myFloID,
       articlekey: articlekey,
       stars:num,
-      //numOfrates:numOfstars+1
     };
-    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test1").then((value) => {
+    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test2").then((value) => {
       ele2.classList.value = "heart";
    if (
       document.getElementById(`${columnName}_count1`).textContent == "No Ratings yet"
@@ -10738,7 +10737,7 @@ notifications.push("Please login to Rate");
         };
 
         floCloudAPI
-          .sendGeneralData(JSON.stringify(mainObj), "test")
+          .sendGeneralData(JSON.stringify(mainObj), "test2")
           .then((result, mainObj) => {
             element.classList.value = "fa fa-thumbs-up";
 
@@ -11021,7 +11020,7 @@ notifications.push("Please login to Rate");
       })
       .catch((error) => console.error(error));
 
-      let articledata1 = floCloudAPI.requestGeneralData("test1");
+      let articledata1 = floCloudAPI.requestGeneralData("test2");
       Promise.all([articledata1]).then(
         function(value){
 
@@ -11038,11 +11037,11 @@ notifications.push("Please login to Rate");
           let article_msg;
                     //user ratings update onload
                     let articleinfo1 =
-            floGlobals.generalData['{"application":"TestApp","type":"test1"}'];
+            floGlobals.generalData['{"application":"TestApp","type":"test2"}'];
           let article_ratesmapping={};
           for(let i=0;i<articleinfo1.length;i++){
            article_msg=((articleinfo1[i].message));
-           //console.log((article_msg));
+           //console.log(JSON.parse(article_msg).articlekey);
             // console.log(JSON.parse(articleinfo1[i].message).stars);
              //let article_msg1=(JSON.parse(article_msg[i]).stars);
            //console.log(articleinfo1[i].message);
@@ -11065,6 +11064,16 @@ notifications.push("Please login to Rate");
             }
           }*/
           updaterates(article_ratesmapping,map_articlekey_column1);
+          for(i=0;i<articleinfo1.length;i++){
+            var article_key=JSON.parse(articleinfo1[i].message).articlekey;
+            if(article_ratesmapping[article_key]==undefined){
+            article_ratesmapping[article_key]=JSON.parse(articleinfo1[i].message).stars;
+            }
+            else{
+              article_ratesmapping[article_key]+=JSON.parse(articleinfo1[i].message).stars;
+            }
+          }
+
         }).catch((error)=>{console.error(error)})
         }
       )
