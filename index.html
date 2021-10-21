@@ -10795,7 +10795,20 @@ notifications.push("Please login to Rate");
       document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
     }
   }
-
+function updaterates1(articleinfo1,column_name,article_key){
+  article_ratesmapping={};
+  for(i=0;i<articleinfo1.length;i++){
+            //if(article_key==map_articlekey_column1)
+                if(article_ratesmapping[article_key]==undefined){
+            article_ratesmapping[article_key]=Number(JSON.parse(articleinfo1[i].message).stars);
+            document.getElementById(`${column_name}_count1`).textContent=Number(article_ratesmapping[article_key]);
+            }
+            else{
+              article_ratesmapping[article_key]=Number(article_ratesmapping[article_key])+Number(JSON.parse(articleinfo1[i].message).stars);
+             document.getElementById(`${column_name}_count1`).textContent=article_ratesmapping[article_key];
+            }
+          }
+        }
   let ele1;
   function ratestar(ele){
   document.getElementById('rating-pop').show();
@@ -11035,44 +11048,32 @@ notifications.push("Please login to Rate");
               allArticles[i].id;
           }
           let article_msg;
-                    //user ratings update onload
-                    let articleinfo1 =
-            floGlobals.generalData['{"application":"TestApp","type":"test2"}'];
-          let article_ratesmapping={};
-          for(let i=0;i<articleinfo1.length;i++){
-           article_msg=((articleinfo1[i].message));
-           //console.log(JSON.parse(article_msg).articlekey);
-            // console.log(JSON.parse(articleinfo1[i].message).stars);
-             //let article_msg1=(JSON.parse(article_msg[i]).stars);
-           //console.log(articleinfo1[i].message);
-          }
-        /*  for(let i=0;i<articleinfo1.length;i++){
-        //  if(Object.keys(articleinfo1[i].message).includes('stars')){
-           if (!(article_msg.articlekey in article_ratesmapping)) {
-              ratesmapval=JSON.parse(articleinfo1[i].message).stars;
-              article_ratesmapping[article_msg.articlekey] =ratesmapval;
-              console.log(article_ratesmapping[article_msg.articlekey] )
-            } else {
-              ratesmapval1=JSON.parse(articleinfo1[i].message).stars;
-              article_ratesmapping[article_msg.articlekey]+=ratesmapval;
-              console.log(article_ratesmapping[article_msg.articlekey] )
+          let articleinfo1;
+          let article_key;
 
-            }
-          }
-            else{
-              console.log("NA");
-            }
-          }*/
+          //user ratings update onload
+            articleinfo1 =
+            floGlobals.generalData['{"application":"TestApp","type":"test2"}'];
+            console.log(articleinfo1);
+            let article_ratesmapping={};
+
           updaterates(article_ratesmapping,map_articlekey_column1);
+          let a=(Object.keys(map_articlekey_column1));
+          let b=(Object.values(map_articlekey_column1));
+
+          for(let j=0;j<articleinfo1.length;j++){
+           article_key=JSON.parse(articleinfo1[j].message).articlekey;
+            let column_name;
+
           for(i=0;i<articleinfo1.length;i++){
-            var article_key=JSON.parse(articleinfo1[i].message).articlekey;
-            if(article_ratesmapping[article_key]==undefined){
-            article_ratesmapping[article_key]=JSON.parse(articleinfo1[i].message).stars;
-            }
-            else{
-              article_ratesmapping[article_key]+=JSON.parse(articleinfo1[i].message).stars;
+            if(a[i]==article_key){
+              console.log(a[i]);
+              console.log(b[i]);
+              column_name=b[i];
+              updaterates1(articleinfo1,column_name,article_key)
             }
           }
+        }
 
         }).catch((error)=>{console.error(error)})
         }
