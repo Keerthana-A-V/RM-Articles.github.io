@@ -10622,11 +10622,6 @@
               tempobj["paragraph"] = sectionpara1;
               currentarticle["sections"][j] = tempobj;
             }
-            /*                 else{
-                      parsedhtml.getElementById('sectionmaster')
-                      console.log(j+1)
-                      console.error(`current articleKey with issue : ${currentarticle['title']}`)
-                  } */
           }
           parsedarticles[articleKey] = currentarticle;
         }else{
@@ -10798,13 +10793,13 @@ notifications.push("Please login to Rate");
 function updaterates1(articleinfo1,column_name,article_key){
   article_ratesmapping={};
   for(i=0;i<articleinfo1.length;i++){
-            //if(article_key==map_articlekey_column1)
                 if(article_ratesmapping[article_key]==undefined){
-            article_ratesmapping[article_key]=Number(JSON.parse(articleinfo1[i].message).stars);
-            document.getElementById(`${column_name}_count1`).textContent=Number(article_ratesmapping[article_key]);
+                  console.log(article_ratesmapping[article_key]);
+            article_ratesmapping[article_key]=(JSON.parse(articleinfo1[i].message).stars);
+            document.getElementById(`${column_name}_count1`).textContent=(article_ratesmapping[article_key]);
             }
             else{
-              article_ratesmapping[article_key]=Number(article_ratesmapping[article_key])+Number(JSON.parse(articleinfo1[i].message).stars);
+              article_ratesmapping[article_key]=(article_ratesmapping[article_key])+(JSON.parse(articleinfo1[i].message).stars);
              document.getElementById(`${column_name}_count1`).textContent=article_ratesmapping[article_key];
             }
           }
@@ -11060,16 +11055,18 @@ function updaterates1(articleinfo1,column_name,article_key){
           updaterates(article_ratesmapping,map_articlekey_column1);
           let a=(Object.keys(map_articlekey_column1));
           let b=(Object.values(map_articlekey_column1));
-
+          let column_name;
+          console.log(a);
+          console.log(b);
           for(let j=0;j<articleinfo1.length;j++){
            article_key=JSON.parse(articleinfo1[j].message).articlekey;
-            let column_name;
-
+           console.log(article_key);
           for(i=0;i<articleinfo1.length;i++){
             if(a[i]==article_key){
               console.log(a[i]);
               console.log(b[i]);
               column_name=b[i];
+              console.log(column_name);
               updaterates1(articleinfo1,column_name,article_key)
             }
           }
