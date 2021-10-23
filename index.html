@@ -10790,19 +10790,24 @@ notifications.push("Please login to Rate");
       document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
     }
   }
-function updaterates1(articleinfo1,column_name,article_key){
-  article_ratesmapping={};
-  for(i=0;i<articleinfo1.length;i++){
+
+  let tot={};
+  let article_ratesmapping={};
+function updaterates1(articleinfo1,column_name,article_key,article_star){
                 if(article_ratesmapping[article_key]==undefined){
                   console.log(article_ratesmapping[article_key]);
-            article_ratesmapping[article_key]=(JSON.parse(articleinfo1[i].message).stars);
-            document.getElementById(`${column_name}_count1`).textContent=(article_ratesmapping[article_key]);
+            article_ratesmapping[article_key]=article_star;
+            tot[article_key]=1;
+            document.getElementById(`${column_name}_count1`).textContent=(article_ratesmapping[article_key])+"/"+tot[article_key];
             }
             else{
-              article_ratesmapping[article_key]=(article_ratesmapping[article_key])+(JSON.parse(articleinfo1[i].message).stars);
-             document.getElementById(`${column_name}_count1`).textContent=article_ratesmapping[article_key];
+              tot[article_key]=tot[article_key]+1;
+             article_ratesmapping[article_key]=Number(article_ratesmapping[article_key])+Number(article_star);
+             avg_stars=article_ratesmapping[article_key]/tot[article_key];
+             avg_stars_tot=avg_stars.toFixed(1);
+             //abcd=article_ratesmapping[article_key]+article_star;
+             document.getElementById(`${column_name}_count1`).textContent=Number(avg_stars_tot)+"/"+Number(tot[article_key]);
             }
-          }
         }
   let ele1;
   function ratestar(ele){
@@ -11060,6 +11065,7 @@ function updaterates1(articleinfo1,column_name,article_key){
           console.log(b);
           for(let j=0;j<articleinfo1.length;j++){
            article_key=JSON.parse(articleinfo1[j].message).articlekey;
+           article_star=JSON.parse(articleinfo1[j].message).stars;
            console.log(article_key);
           for(i=0;i<articleinfo1.length;i++){
             if(a[i]==article_key){
@@ -11067,7 +11073,7 @@ function updaterates1(articleinfo1,column_name,article_key){
               console.log(b[i]);
               column_name=b[i];
               console.log(column_name);
-              updaterates1(articleinfo1,column_name,article_key)
+              updaterates1(articleinfo1,column_name,article_key,article_star)
             }
           }
         }
