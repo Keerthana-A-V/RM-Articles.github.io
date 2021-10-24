@@ -10681,38 +10681,6 @@
     return map_articlekey_column;
   }
 
-  function saverating(num,ele2){
-  let columnName = ele2.id.split("_")[0];
-  if (typeof myFloID !== "undefined"){
-    if (ele2.classList.value  == "heart") {
-      let articlekey =
-      document.getElementById(columnName).dataset.articlekey;
-    let mainObj = {
-      floID: myFloID,
-      articlekey: articlekey,
-      stars:num,
-    };
-    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test2").then((value) => {
-      ele2.classList.value = "heart";
-   if (
-      document.getElementById(`${columnName}_count1`).textContent == "No Ratings yet"
-    ) {
-      document.getElementById(`${columnName}_count1`).textContent = num;
-    } else {
-      document.getElementById(`${columnName}_count1`).innerHTML =
-        Number(
-          document.getElementById(`${columnName}_count1`).textContent
-        )+Number(num);
-    }
-    })
-  }
-}else {
-notifications.push("Please login to Rate");
-}
-  }
-
-
-
   function switchtoArticle(element) {
     homepage.classList.add("hide");
     document.getElementById("displaypage").innerHTML =
@@ -10789,6 +10757,38 @@ notifications.push("Please login to Rate");
     for(let i=0;i<articlekeys.length;i++){
       document.getElementById(`${map_articlekey_column1[articlekeys[i]]}_count1`).textContent='No Ratings yet';
     }
+  }
+
+  function saverating(num,ele2){
+  let columnName = ele2.id.split("_")[0];
+  if (typeof myFloID !== "undefined"){
+    if (ele2.classList.value  == "heart") {
+      let articlekey =
+      document.getElementById(columnName).dataset.articlekey;
+    let mainObj = {
+      floID: myFloID,
+      articlekey: articlekey,
+      stars:num,
+    };
+    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test2").then((value) => {
+      ele2.classList.value = "heart";
+   if (document.getElementById(`${columnName}_count1`).textContent == "No Ratings yet")
+    { 
+      tot[articlekey]=1
+      document.getElementById(`${columnName}_count1`).textContent = num+"/"+tot[articlekey];
+    } else {
+      x=document.getElementById(`${columnName}_count1`).innerHTML;
+      y=x.split('/');
+      total_rating=(Number(y[0])+Number(num))/(2);
+      tot_rates=Number(y[1])+1;
+      document.getElementById(`${columnName}_count1`).innerHTML =
+        (total_rating).toFixed(1)+"/"+tot_rates;
+    }
+    })
+  }
+}else {
+notifications.push("Please login to Rate");
+}
   }
 
   let tot={};
