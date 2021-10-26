@@ -10775,14 +10775,13 @@
    if (document.getElementById(`${columnName}_count1`).textContent == "No Ratings yet")
     { 
       tot[articlekey]=1
-      document.getElementById(`${columnName}_count1`).textContent = num+"/"+tot[articlekey];
+      document.getElementById(`${columnName}_count1`).textContent =tot[articlekey];
     } else {
       x=document.getElementById(`${columnName}_count1`).innerHTML;
       y=x.split('/');
       total_rating=(Number(y[0])+Number(num))/(2);
       tot_rates=Number(y[1])+1;
-      document.getElementById(`${columnName}_count1`).innerHTML =
-        (total_rating).toFixed(1)+"/"+tot_rates;
+      document.getElementById(`${columnName}_count1`).innerHTML =tot_rates;
     }
     })
   }
@@ -10798,7 +10797,7 @@ function updaterates1(articleinfo1,column_name,article_key,article_star){
                   console.log(article_ratesmapping[article_key]);
             article_ratesmapping[article_key]=article_star;
             tot[article_key]=1;
-            document.getElementById(`${column_name}_count1`).textContent=(article_ratesmapping[article_key])+"/"+tot[article_key];
+            document.getElementById(`${column_name}_count1`).textContent=Number(tot[article_key])+" ratings";
             }
             else{
               tot[article_key]=tot[article_key]+1;
@@ -10806,7 +10805,7 @@ function updaterates1(articleinfo1,column_name,article_key,article_star){
              avg_stars=article_ratesmapping[article_key]/tot[article_key];
              avg_stars_tot=avg_stars.toFixed(1);
              //abcd=article_ratesmapping[article_key]+article_star;
-             document.getElementById(`${column_name}_count1`).textContent=Number(avg_stars_tot)+"/"+Number(tot[article_key]);
+             document.getElementById(`${column_name}_count1`).textContent=Number(tot[article_key])+" ratings";
             }
         }
   let ele1;
