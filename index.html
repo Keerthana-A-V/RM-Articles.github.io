@@ -10679,8 +10679,8 @@
   }
 function goto()
 {
-  localStorage.setItem("a",document.getElementById(`column${i+1}_count`).innerHTML);
-window.location.href=`./${parsedArticleKeys[i]}.html`
+  localStorage.setItem("a",document.getElementById(`column${i+1}_count`).textContent);
+  window.location.href=`./${parsedArticleKeys[i]}.html`
 }
   function switchtoArticle(element) {
     homepage.classList.add("hide");
