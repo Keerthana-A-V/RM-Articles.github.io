@@ -10660,7 +10660,7 @@
                           }</p>
                           <span><a href='./${
                             parsedArticlesKeys[i]
-                          }.html' onclick="goto()">Read article 
+                          }.html' onclick="goto(i)">Read article 
                               <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
                           </a>
                           <div style="color:rgb(241, 106, 106);cursor:pointer;" id="column${i + 1}_hearts" class="heart" onclick="ratestar(this)">Rate this article <img  src="https://img.icons8.com/ios/25/000000/hand-drawn-star.png" / >
@@ -10677,12 +10677,14 @@
     }
     return map_articlekey_column;
   }
-function goto()
+function goto(i)
 {
- var w=document.getElementById(`column${i+1}_count`).innerHTML;
- var q=10
-  sessionStorage.setItem("z",q);
-  location.href=`./${parsedArticleKeys[i]}.html`
+  j=i+1;
+ var w=parseInt(document.getElementById(`column${j}_count`).textContent);
+  sessionStorage.setItem("z",w);
+  console.log('hello2')
+ window.location.href=`./${parsedArticleKeys[i]}.html`
+  console.log('hello')
 }
   function switchtoArticle(element) {
     homepage.classList.add("hide");
