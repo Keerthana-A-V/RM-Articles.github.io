@@ -427,7 +427,7 @@
       }
 
       function numoflikes(){
-       var b=  sessionStorage.getItem("z")
+       var b= JSON.parse(sessionStorage.getItem("z"))
        console.log(b)
        document.getElementById('num').textContent=b;
       // sessionStorage.removeItem('z');
