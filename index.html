@@ -10660,7 +10660,7 @@
                           }</p>
                           <span><a href='./${
                             parsedArticlesKeys[i]
-                          }.html' onclick="goto(i)">Read article 
+                          }.html' onclick='goto(${i})'>Read article 
                               <i class="fa fa-angle-double-right" aria-hidden="true"></i> 
                           </a>
                           <div style="color:rgb(241, 106, 106);cursor:pointer;" id="column${i + 1}_hearts" class="heart" onclick="ratestar(this)">Rate this article <img  src="https://img.icons8.com/ios/25/000000/hand-drawn-star.png" / >
@@ -10679,11 +10679,12 @@
   }
 function goto(i)
 {
-  j=i+1;
- var w=JSON.stringify((document.getElementById(`column${j}_count1`).textContent));
-  sessionStorage.setItem("z",JSON.stringify((document.getElementById(`column${i+1}_count1`).textContent)));
- // var z=?param=document.getElementById(`column${i+1}_count`).textContent&param2=w;
- window.location.href=`./${parsedArticleKeys[i]}.html/?param=document.getElementById('column${i+1}_count').textContent&param2=w`;
+  if(typeof(Storage)!=="undefined"){
+ var w=JSON.stringify((document.getElementById(`column${i+1}_count`).textContent));
+ sessionStorage.setItem("z",w);
+ //var z=?param=document.getElementById(`column${i+1}_count`).textContent&param2=w;
+ window.location.href=`./${parsedArticleKeys[i]}.html`;
+}
 }
   function switchtoArticle(element) {
     homepage.classList.add("hide");
