@@ -395,6 +395,7 @@
 
       }
     let columnName = element.id.split("_")[0];
+    alert(element)
     if (typeof myFloID !== "undefined") {
       if (element.classList.value  == "fa fa-thumbs-o-up") {
         let articlekey =
@@ -422,17 +423,15 @@
           });
       }
     } else {
-      //notifications.push("Please login to upvote");
+      notifications.push("Please login to upvote");
     }
       }
 
       function numoflikes(){
        var b=JSON.parse(sessionStorage.getItem("z"))
-//     var k=decodeURIComponent(window.location.search);
        console.log(b)
-    //   console.log(k)
        document.getElementById('num').textContent=b;
-      // sessionStorage.removeItem('z');
+      sessionStorage.removeItem('z');
       }
 </script>
 </body>

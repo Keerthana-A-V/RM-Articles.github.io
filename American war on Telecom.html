@@ -334,58 +334,60 @@ Henceforth, Huawei is likely to follow the path which involves Washington granti
                 </div>
                 <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id="column${
                     i + 1
-                  }_thumbs" onclick="clickProcess(this)">Upvote  <i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:1rem;cursor:pointer;"></i><span style="font-weight:bold;padding-left: 5px;" id="num1"> </span></span>
+                  }_thumbs" onclick="clickProcess(this)">Upvote  <i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:1rem;cursor:pointer;"></i><span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
                    <!-- <div><img src="https://cdn-icons-png.flaticon.com/512/25/25423.png" alt="" style="height: 25px;margin-left: 30%;">Upvote</div>-->
                 <br><br>
                 <script src="https://use.fontawesome.com/41cc35d596.js"></script>
-                
                 <script>
-                  function clickProcess(element) {
-                      if(document.getElementById('num1').textContent==" "){
-                      document.getElementById('num1').textContent="1";
+                    function clickProcess(element) {
+                        if(document.getElementById('num').textContent==" "){
+                        document.getElementById('num').textContent="1";
+                        }
+                        else{
+                          num1=Number(document.getElementById('num').textContent)
+                          document.getElementById('num').textContent=num1+1;
+                  
+                        }
+                      let columnName = element.id.split("_")[0];
+                      if (typeof myFloID !== "undefined") {
+                        if (element.classList.value  == "fa fa-thumbs-o-up") {
+                          let articlekey =
+                            document.getElementById(columnName).dataset.articlekey;
+                          let mainObj = {
+                            floID: myFloID,
+                            articlekey: articlekey,
+                          };
+                          
+                          floCloudAPI
+                            .sendGeneralData(JSON.stringify(mainObj), "test2")
+                            .then((result, mainObj) => {
+                              element.classList.value = "fa fa-thumbs-up";
+                  
+                              if (
+                                document.getElementById(`${columnName}_count`).textContent == ""
+                              ) {
+                                document.getElementById(`${columnName}_count`).textContent = "1";
+                              } else {
+                                document.getElementById(`${columnName}_count`).textContent =
+                                  parseInt(
+                                    document.getElementById(`${columnName}_count`).textContent
+                                  ) + 1;
+                              }
+                            });
+                        }
+                      } else {
+                        notifications.push("Please login to upvote");
                       }
-                      else{
-                        num1=Number(document.getElementById('num1').textContent)
-                        document.getElementById('num1').textContent=num1+1;
-                
-                      }
-                    let columnName = element.id.split("_")[0];
-                    if (typeof myFloID !== "undefined") {
-                      if (element.classList.value  == "fa fa-thumbs-o-up") {
-                        let articlekey =
-                          document.getElementById(columnName).dataset.articlekey;
-                        let mainObj = {
-                          floID: myFloID,
-                          articlekey: articlekey,
-                        };
-                        
-                        floCloudAPI
-                          .sendGeneralData(JSON.stringify(mainObj), "test2")
-                          .then((result, mainObj) => {
-                            element.classList.value = "fa fa-thumbs-up";
-                
-                            if (
-                              document.getElementById(`${columnName}_count`).textContent == ""
-                            ) {
-                              document.getElementById(`${columnName}_count`).textContent = "1";
-                            } else {
-                              document.getElementById(`${columnName}_count`).textContent =
-                                parseInt(
-                                  document.getElementById(`${columnName}_count`).textContent
-                                ) + 1;
-                            }
-                          });
-                      }
-                    } else {
-                      //notifications.push("Please login to upvote");
-                    }
-                      }
-                
-                      function numoflikes(){
-                       var b=  localStorage.getItem("a")
-                       alert(b)
-                       document.getElementById('num1').textContent=b;
-                      }
-                      </script>
+                        }
+                  
+                        function numoflikes(){
+                         var b=JSON.parse(sessionStorage.getItem("z"))
+                  //     var k=decodeURIComponent(window.location.search);
+                         console.log(b)
+                      //   console.log(k)
+                         document.getElementById('num').textContent=b;
+                        // sessionStorage.removeItem('z');
+                        }
+                  </script>
             </body>
                 </html>

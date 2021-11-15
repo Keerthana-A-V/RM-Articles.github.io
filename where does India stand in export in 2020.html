@@ -251,6 +251,61 @@
                             <div class="column" id='section1'><div class="head"><span class="headline hl3">India Cant even defeat Vietnam in exports</span></div><p>Socialist republic of Vietnam shares land border with China Laos and Cambodia. Population of the country is just 10 crores. GDP being 262 billion dollars as per 2019. As speculated the country's economy won't contract even after the pandemic. Vietnam beats India badly in exports in 2020. Even before the covid-19 pandemic, Vietnam was way ahead from India in the field of exports. Although India having more populace than Vietnam, the mass employment in Vietnam resulted fruitfully, which significantly lacks in India. Vietnam has become an evident choice of electronics and mobile phone companies, stressing to move out of China. In 2019, Vietnam top exports comprised electrical machinery and equipment with 41%share, apparel with 11%, footwear with 8% and machinery & mechanical appliances with 5%. Vietnam's total exports grew at an annual average rate of 18% in past decade whereas compared to India's growth rate is 5%. During this period, the country attained a surplus of 47 billion dollars which in 2019 was just 13 billion dollars trade deficit in 2010. On the other hand India's trade deficit increased to 156 billion dollars in 2019 from 130 billion dollars in 2010. One of the basics reason for Vietnam success in export is having 80% of market value of export by large enterprises, whereas, India's 80% export is by small enterprises. Secondly, the infrastructure of a country plays an important role. In India, it takes 7 to 10 days to reach the port and pass the legal procedure, whereas, in Vietnam it takes less than a day, according to the Economic Survey. One of the leading South-Korea based electronics company, Samsung has the largest facilities outside its home country in Vietnam. The company fabricates half of its global handsets in Vietnam and has gained huge profits post the US-China trade war. Thereafter, providing large employment opportunities asthe total sales in Vietnam contributed for as much as 28 % of the country's GDP in 2018. Thus, Samsung is likely to enlarge its production lines for making smartphones to India under the PLI (Production Link Incentive) scheme. It is estimated that India could take at least a decade to beat Vietnam in electronics exports. Vietnam ratified its Free Trade Agreement (FTA) with the European Union (EU) which would essentially allow European producers to cut off or eliminate the tariffs on the products completely. Thus, companies find this captivating and moving their interest out of China to move to Vietnam now. Meanwhile, India is still struggling about its low cost advantage. Vietnam is a one-party state where decisions are taken much faster, whereas, in India, the procedure is long and time taking.</p></div></div><div class="columns">
                             <div class="column" id='section2'><div class="head"><span class="headline hl3">Role of government to boost exports</span></div><p>India's exports resulted in contraction for the consecutive fifth month by 1.8% in December 2019 to $27.36 billion. During April-December 2019-20, exports slipped by 1.96% to $239.29 billion. Thus, the Finance Minister Nirmala Sitharaman replied to a debate in the Union budget and further mentioned 6 specific steps taken to improve country's exports. 1. Remission of Duties or taxes on export product (RoDTEP) : It will replace the existing Merchandise from India Scheme (MEIS). MIES was introduced in 2015 but it did not comply with the WTO rules. While, RoDTEPwill cover central and state indirect taxes which are not currently reimbursed that happened earlier.2. Enhanced limit under priority sector lending : The export credit limit has been raised from Rs. 25 crore to Rs. 40 crore per borrower.3. Niryat Rin Vikas Yojana (NIRVIK) : To provide enhanced insurance cover and reduce premium for small exporters. 4. Sugar Export Policy : Government has approved a sugar export policy for evacuation of surplus stocks during the sugar season 2019-20.5. E-Commerce for Handicraft Industry : To enable handicraft industry to effectively harness e-commerce for exports. Mass enrollment with the artisans of India will be collaborated with the Textiles Ministry. 6. Amendment of Special Economic Zone (SEZ) : The government has also amended the SEZ law where trusts are allowed to set up units in special economic zones. To increase exports government has offered various incentives furthermore. Import Replenishment Licenses (REP) : The exporters are allowed for importing raw materials and exponents used in manufacture of export products. In this REPs are to be granted for the list of items of import. These are known as indirect exporters, and also termed as deemed exporters. Duty Exemption Scheme : Under this scheme, various raw material consumables for export products are imported duty free. It covers categories to advance license and custom clearance permit. It helps in direct exporters. Tax Exemptions on earnings : The profit on export is reduced by 50% for tax collection. There are flexible deduction in respect of expenditure by the company for promotion sales outside India. Cash assistance to exporters : Cash assistance is given to exporters to compete in International market. It is basically designed to match the differences in international price. Export Promotion Capital Goods Scheme (EPCG) : The scheme allows import of goods at a low rate of custom duty to fulfill the export obligation over a period. Second hand goods are allowed to be imported under certain conditions. Small industries can import capital goods to National Small industries Corporation India limited.</p></div></div></div>
                 </div>
-                <div><img src="https://cdn-icons-png.flaticon.com/512/25/25423.png" alt="" style="height: 25px;margin-left: 30%;">Upvote</div>
-<br><br></body>
+                <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id="column${
+                    i + 1
+                  }_thumbs" onclick="clickProcess(this)">Upvote  <i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:1rem;cursor:pointer;"></i><span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
+                   <!-- <div><img src="https://cdn-icons-png.flaticon.com/512/25/25423.png" alt="" style="height: 25px;margin-left: 30%;">Upvote</div>-->
+                <br><br>
+                <script src="https://use.fontawesome.com/41cc35d596.js"></script>
+                
+                <script>
+                  function clickProcess(element) {
+                      if(document.getElementById('num').textContent==" "){
+                      document.getElementById('num').textContent="1";
+                      }
+                      else{
+                        num1=Number(document.getElementById('num').textContent)
+                        document.getElementById('num').textContent=num1+1;
+                
+                      }
+                    let columnName = element.id.split("_")[0];
+                    alert(element)
+                    if (typeof myFloID !== "undefined") {
+                      if (element.classList.value  == "fa fa-thumbs-o-up") {
+                        let articlekey =
+                          document.getElementById(columnName).dataset.articlekey;
+                        let mainObj = {
+                          floID: myFloID,
+                          articlekey: articlekey,
+                        };
+                        
+                        floCloudAPI
+                          .sendGeneralData(JSON.stringify(mainObj), "test2")
+                          .then((result, mainObj) => {
+                            element.classList.value = "fa fa-thumbs-up";
+                
+                            if (
+                              document.getElementById(`${columnName}_count`).textContent == ""
+                            ) {
+                              document.getElementById(`${columnName}_count`).textContent = "1";
+                            } else {
+                              document.getElementById(`${columnName}_count`).textContent =
+                                parseInt(
+                                  document.getElementById(`${columnName}_count`).textContent
+                                ) + 1;
+                            }
+                          });
+                      }
+                    } else {
+                      notifications.push("Please login to upvote");
+                    }
+                      }
+                
+                      function numoflikes(){
+                       var b=JSON.parse(sessionStorage.getItem("z"))
+                       console.log(b)
+                       document.getElementById('num').textContent=b;
+                      sessionStorage.removeItem('z');
+                      }
+                </script></body>
                 </html>
