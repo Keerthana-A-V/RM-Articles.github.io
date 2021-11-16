@@ -10682,6 +10682,9 @@ function goto(i)
   if(typeof(Storage)!=="undefined"){
  var w=JSON.stringify((document.getElementById(`column${i+1}_count`).textContent));
  sessionStorage.setItem("z",w);
+ sessionStorage.setItem("m",myFloID);
+ sessionStorage.setItem("col",i);
+
  //var z=?param=document.getElementById(`column${i+1}_count`).textContent&param2=w;
  window.location.href=`./${parsedArticleKeys[i]}.html`;
 }
