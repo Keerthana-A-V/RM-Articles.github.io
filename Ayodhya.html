@@ -748,28 +748,30 @@
             </div>
         </div>
     </div>
-    <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id='column${
-        i + 1
-      }_thumbs' onclick="clickProcess(this)">Upvote  <i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:1rem;cursor:pointer;"></i><span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
+    <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id=`column${i + 1}_thumbs` onclick="clickProcess(this)">Upvote  <i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:1rem;cursor:pointer;"></i><span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
        <!-- <div><img src="https://cdn-icons-png.flaticon.com/512/25/25423.png" alt="" style="height: 25px;margin-left: 30%;">Upvote</div>-->
     <br><br>
     <script src="https://use.fontawesome.com/41cc35d596.js"></script>
     
     <script>
       function clickProcess(element) {
+        console.log("pass")
         let columnName =`column${col}_count`;
-        if (typeof myFloID!== undefined) {
+        console.log(myFloID)
+        if (myFloID!=" ") {
             console.log("pass1")
-            console.log(element.classList.value)
-          if (element.classList.value  == "fa fa-thumbs-o-up") {
+          //if (element.classList.value  == "fa fa-thumbs-o-up")
+           {
+              console.log("Hello")
             let articlekey =
-              document.getElementById(columnName).dataset.articlekey;
+            document.getElementById(`column${col}_count`).dataset.articlekey;
+              console.log(articlekey)
             let mainObj = {
               floID: myFloID,
               articlekey: articlekey,
             };
             console.log(mainObj)
-            floCloudAPI
+          /*  floCloudAPI
               .sendGeneralData(JSON.stringify(mainObj), "test2")
               .then((result, mainObj) => {
                 element.classList.value = "fa fa-thumbs-up";
@@ -782,7 +784,7 @@
             document.getElementById('num').textContent=num1+1;
     
           }
-              });
+              });*/
           }
         } else {
           document.getElementById('notify').push("Please login to upvote",{pinned:true});
@@ -791,11 +793,8 @@
           var myFloID,col;
           function numoflikes(){
           var  b=JSON.parse(sessionStorage.getItem("z"))
-          console.log(b)
             myFloID=(sessionStorage.getItem("m"))
-            console.log(myFloID)
             col=(sessionStorage.getItem("col"))
-            console.log(col)
            document.getElementById('num').textContent=b;
            //console.log(b+" "+col+" "+myFloID)
           //sessionStorage.removeItem('z');
