@@ -10681,9 +10681,11 @@ function goto(i)
 {
   if(typeof(Storage)!=="undefined"){
  var w=JSON.stringify((document.getElementById(`column${i+1}_count`).textContent));
+ var artnm=`column${i+1}_count`
  sessionStorage.setItem("z",w);
  sessionStorage.setItem("m",myFloID);
  sessionStorage.setItem("col",i);
+ //sessionStorage.setItem("articlename",artnm.dataset.articlekey)
 
  //var z=?param=document.getElementById(`column${i+1}_count`).textContent&param2=w;
  window.location.href=`./${parsedArticleKeys[i]}.html`;
@@ -10698,6 +10700,7 @@ function goto(i)
 
   function clickProcess(element) {
     let columnName = element.id.split("_")[0];
+    console.log(columnName)
     if (typeof myFloID !== "undefined") {
       if (element.classList.value  == "fa fa-thumbs-o-up") {
         let articlekey =
@@ -11068,18 +11071,18 @@ function updaterates1(articleinfo1,column_name,article_key,article_star){
           let a=(Object.keys(map_articlekey_column1));
           let b=(Object.values(map_articlekey_column1));
           let column_name;
-          console.log(a);
-          console.log(b);
+          //console.log(a);
+          //console.log(b);
           for(let j=0;j<articleinfo1.length;j++){
            article_key=JSON.parse(articleinfo1[j].message).articlekey;
            article_star=JSON.parse(articleinfo1[j].message).stars;
-           console.log(article_key);
+           //console.log(article_key);
           for(i=0;i<articleinfo1.length;i++){
             if(a[i]==article_key){
-              console.log(a[i]);
-              console.log(b[i]);
+            //  console.log(a[i]);
+             // console.log(b[i]);
               column_name=b[i];
-              console.log(column_name);
+            //  console.log(column_name);
               updaterates1(articleinfo1,column_name,article_key,article_star)
             }
           }
