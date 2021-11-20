@@ -10681,12 +10681,12 @@ function goto(i)
 {
   if(typeof(Storage)!=="undefined"){
  var w=JSON.stringify((document.getElementById(`column${i+1}_count`).textContent));
- var artnm=`column${i+1}_count`
+ var artnm=document.getElementById(`column${i+1}`).dataset.articlekey;
  sessionStorage.setItem("z",w);
  sessionStorage.setItem("m",myFloID);
  sessionStorage.setItem("col",i);
- //sessionStorage.setItem("articlename",artnm.dataset.articlekey)
-
+ sessionStorage.setItem("articlename",artnm)
+ sessionStorage.setItem("myprivkey",myPrivKey)
  //var z=?param=document.getElementById(`column${i+1}_count`).textContent&param2=w;
  window.location.href=`./${parsedArticleKeys[i]}.html`;
 }
@@ -10805,7 +10805,6 @@ notifications.push("Please login to Rate");
   let article_ratesmapping={};
 function updaterates1(articleinfo1,column_name,article_key,article_star){
                 if(article_ratesmapping[article_key]==undefined){
-                  console.log(article_ratesmapping[article_key]);
             article_ratesmapping[article_key]=article_star;
             tot[article_key]=1;
             document.getElementById(`${column_name}_count1`).textContent=Number(tot[article_key])+" ratings";
