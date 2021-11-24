@@ -9855,7 +9855,7 @@
           var data = {
             senderID: myFloID,
             receiverID: options.receiverID || floGlobals.adminID,
-            pubKey: myPubKey,
+            pubKey: floCrypto.getPubKeyHex(myPrivKey),
             message: message,
             sign: floCrypto.signData(JSON.stringify(message), myPrivKey),
             application: options.application || floGlobals.application,
@@ -10477,9 +10477,7 @@
       util: {
         requestData(request = []) {
           return new Promise((resolve, reject) => {
-            var websocket = new WebSocket(
-              "wss://" + floGlobals.webAppURL + "/ws"
-            );
+            var websocket = new WebSocket("wss://" + floGlobals.webAppURL + "/ws");
             websocket.onmessage = (evt) => {
               if (evt.data == "$+") {
                 websocket.send(`?${JSON.stringify(request)}`);
