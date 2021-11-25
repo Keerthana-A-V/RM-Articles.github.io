@@ -401,7 +401,7 @@
               articlekey: articlekey,
             };
             console.log("mainObj")
-           floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test2")
+           floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")
               .then((result, mainObj) => {
                 element.classList.value = "fa fa-thumbs-up";
     
@@ -422,9 +422,15 @@
 
     </script>
 
-    <script>
-                        var myFloID,col,articlekeey,myPrivKey;
+    <script id="onLoadStartUp">
+          var myFloID,col,articlekeey,myPrivKey;
           function onLoadStartUp(){
+            floDapps.launchStartUp().then(result => {
+                console.log(result)
+                console.log(`Welcome FLO_ID: ${myFloID}`)
+                //App functions....
+            }).catch(error => console.error(error))
+        
           var  b=JSON.parse(sessionStorage.getItem("z"))
             myFloID=(sessionStorage.getItem("m"))
             col=(sessionStorage.getItem("col"))
