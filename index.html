@@ -10787,10 +10787,11 @@ function goto(i)
       document.getElementById(`${columnName}_count1`).textContent =tot[articlekey];
     } else {
       x=document.getElementById(`${columnName}_count1`).innerHTML;
-      y=x.split('/');
-      total_rating=(Number(y[0])+Number(num))/(2);
-      tot_rates=Number(y[1])+1;
-      document.getElementById(`${columnName}_count1`).innerHTML =tot_rates;
+     // y=x.split('/');
+     // total_rating=(Number(y[0])+Number(num))/(2);
+      //tot_rates=Number(y[1])+1;
+      tot_rates=Number(document.getElementById(`${columnName}_count1`).innerHTML);
+      document.getElementById(`${columnName}_count1`).innerHTML=tot_rates+1;
     }
     })
   }
