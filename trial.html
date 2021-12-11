@@ -1554,7 +1554,7 @@ customElements.define('sm-popup', class extends HTMLElement {
                                     <div class="content" id='sectionmaster'><div class="columns">
                             <div class="column" id='section1'><div class="head"><span class="headline hl3">Big Tech Companies Antitrust Hearing - why 4 biggest companies are going under trial?</span></div><p>Big Tech companies Antitrust hearing
 
-As we all know from  decades, the tech industry has avoided and dodge scrutiny over mergers, acquisitions, and potential anti-competitive behavior as antitrust crusaders argued their case from the sidelines. But this time, the industry’s biggest companies are  forced to face that evidence head-on.
+As we all know from decades, the tech industry has avoided and dodge scrutiny over mergers, acquisitions, and potential anti-competitive behavior as antitrust crusaders argued their case from the sidelines. But this time, the industry’s biggest companies are  forced to face that evidence head-on.
 
 On July 29th, lawmakers are set to face the chief executives of the tech industry’s the four companies who are going under this big trial are respectively Amazon, Apple, Facebook, and Google. Since last June, House lawmakers have been engaged in a sweeping investigation into the tech sector, focusing on whether some of the most notable names in the industry have grown too big and powerful.
 
@@ -1564,7 +1564,7 @@ At the hearing, evidence from an investigation may finally make a way into publi
 
 “The other hearings where they’ve testified have not really been oversight hearings, they haven’t been about antitrust and monopolistic behavior,” told Pramila Jayapal. (U. S representative)
 
-The main reason behind the hearing was for  Zuckerberg, Pichai, Amazon’s Jeff Bezos, and Apple’s Tim Cook to address the evidentiary record the committee has already prepared over the last 13 months, an intimidating number of documents that no tech CEO has reckoned with since Microsoft’s antitrust charges in the ‘90s. At the end of this probe, the committee intends to publish a report in the coming months detailing how the executives’ respective companies have avoided liability under current antitrust laws because those competition rules were never crafted with the tech industry’s behaviours in mind.
+The main reason behind the hearing was for Zuckerberg, Pichai, Amazon’s Jeff Bezos, and Apple’s Tim Cook to address the evidentiary record the committee has already prepared over the last 13 months, an intimidating number of documents that no tech CEO has reckoned with since Microsoft’s antitrust charges in the ‘90s. At the end of this probe, the committee intends to publish a report in the coming months detailing how the executives’ respective companies have avoided liability under current antitrust laws because those competition rules were never crafted with the tech industry’s behaviours in mind.
 
 
 The question arose is How the CEOs of Apple, Google, Amazon, and Facebook plan to defend Big Tech today.?
@@ -1574,7 +1574,7 @@ The question arose is How the CEOs of Apple, Google, Amazon, and Facebook plan t
 The hearing may be particularly rough on Jeff Bezos, who is testifying before Congress for the first time. Amazon has been a chief target for tech antitrust scholars for years, and recent evidence has put it in a particularly shaky position. At a hearing last July, Amazon’s associate general counsel Nate Sutton said that the company does not access sales data from sellers. But in April, The Wall Street Journal says that Amazon employees used independent seller data to guide the development of Amazon’s own products. According to the Journal, employees allegedly  the sales and profit margins of products like a car trunk organizer sold by a third-party seller before launching its own competing product. After the report was published, the House Judiciary Committee called on Bezos to testify in light of the story.
 
 
-There are similar points for nearly every company appearing. Apple is facing active antitrust  in both the US and EU over its app store policies, particularly the flat 30 percent of the  companies cut collects for fees paid through the store.  Facebook’s  has a history of troublesome acquisitions, including Instagram, that they have largely avoided regulatory scrutiny.
+There are similar points for nearly every company appearing. Apple is facing active antitrust in both the US and EU over its app store policies, particularly the flat 30 percent of the  companies cut collects for fees paid through the store.  Facebook’s  has a history of troublesome acquisitions, including Instagram, that they have largely avoided regulatory scrutiny.
 
 . Rep. Matt Gaetz (R-FL) sits on the subcommittee and has brandished himself as a prominent voice in the Republican fight against biased platform moderation. Gaetz has already filed a criminal referral against Zuckerberg for allegedly making false statements to Congress in hearings past. Companies are also trying to make the hearing about Chinese apps like TikTok and how new competition rules could make the US less competitive with products from China.
 
@@ -1634,9 +1634,7 @@ Yet Frankel also warned that while the dollar's position is secure for now, spir
     i + 1
   }_thumbs" class="fa fa-thumbs-o-up"
  onclick="clickProcess(this)"> Upvote 
-  <!--<i class="fa fa-thumbs-o-up" aria-hidden="true" style="padding-left:1rem;cursor:pointer;"></i>-->
   <span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
-   <!-- <div><img src="https://cdn-icons-png.flaticon.com/512/25/25423.png" alt="" style="height: 25px;margin-left: 30%;">Upvote</div>-->
 <br><br>
                                     </div>
                                 </div>
@@ -10850,9 +10848,37 @@ Yet Frankel also warned that while the dollar's position is secure for now, spir
                                     }
                                 }
                             </script>
+<script>
+    function clickProcess(element) {
+        let columnName =`column${col}_count`;
+        if (myFloID!=undefined) {
+          if (element.classList.value  == "fa fa-thumbs-o-up")
+           {
+            let articlekey =articlekeey
+            let mainObj = {
+              floID: myFloID,
+              articlekey: articlekey,
+            };
+            console.log("mainObj")
+           floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")
+              .then((result, mainObj) => {
+                element.classList.value = "fa fa-thumbs-up";
+                if(document.getElementById('num').textContent==" "){
+          document.getElementById('num').textContent="1";
 
-                        <script id="onLoadStartUp">
-
+          }
+          else{
+            num1=Number(document.getElementById('num').textContent)
+            document.getElementById('num').textContent=num1+1;
+          }
+              });
+          }
+        } else {
+          document.getElementById('notify').push("Please login to upvote",{pinned:true});
+        }
+          }
+</script>
+                      <!-- <script id="onLoadStartUp">
                               /*  let notifications = document.getElementById("sm-notifications"),
                                     genblockchainID = document.getElementById('gen-floid'),
                                     genPrivateKey = document.getElementById('gen-privateKey'),
@@ -10893,7 +10919,7 @@ Yet Frankel also warned that while the dollar's position is secure for now, spir
                                         }
                                           }
                                 */
-                                    </script>
+                                    </script>--> 
 
                                     <script id="onLoadStartUp">
 
@@ -10905,42 +10931,9 @@ Yet Frankel also warned that while the dollar's position is secure for now, spir
                                 homepage = document.getElementById('homepage'),
                                 mainarticle_page = document.getElementById('display_page_main')
 
-
-                                function clickProcess(element) {
-                                    let columnName =`column${col}_count`;
-                                    console.log(element)
-                                    console.log(element.classList)
-                                    if (myFloID1!=undefined) {
-                                      if (element.classList.value  == "fa fa-thumbs-o-up")
-                                       {
-                                        let articlekey =articlekeey
-                                        let mainObj = {
-                                          floID: myFloID1,
-                                          articlekey: articlekey,
-                                        };
-                                        console.log("mainObj")
-                                       floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")
-                                          .then((result, mainObj) => {
-                                            element.classList.value = "fa fa-thumbs-up";
-                                
-                                            if(document.getElementById('num').textContent==" "){
-                                      document.getElementById('num').textContent="1";
-                                      }
-                                      else{
-                                        num1=Number(document.getElementById('num').textContent)
-                                        document.getElementById('num').textContent=num1+1;
-                                
-                                      }
-                                          });
-                                      }
-                                    } else {
-                                      document.getElementById('notify').push("Please login to upvote",{pinned:true});
-                                    }
-                                      }
-                            
-
-                                          var myFloID1,col,articlekeey,myPrivKey;
+                                          var myFloID,col,articlekeey,myPrivKey;
                                           function onLoadStartUp(){
+
                                             floDapps.launchStartUp().then(result => {
                                                 console.log(result)
                                                 console.log(`Welcome FLO_ID: ${myFloID}`)
@@ -10955,8 +10948,6 @@ Yet Frankel also warned that while the dollar's position is secure for now, spir
                                             myPrivKey=sessionStorage.getItem("myprivkey");
                                             myPubKey=sessionStorage.getItem("mypubkey");
                                            document.getElementById('num').textContent=b;
-                                           //console.log(b+" "+col+" "+myFloID)
-                                          //sessionStorage.removeItem('z');
                                           }
 
 
