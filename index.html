@@ -10779,7 +10779,8 @@ function goto(i)
       articlekey: articlekey,
       stars:num,
     };
-    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test2").then((value) => {
+    floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test2").then((value) => 
+    {
       ele2.classList.value = "heart";
    if (document.getElementById(`${columnName}_count1`).textContent == "No Ratings yet")
     { 
@@ -10787,11 +10788,11 @@ function goto(i)
       document.getElementById(`${columnName}_count1`).textContent =tot[articlekey];
     } else {
       x=document.getElementById(`${columnName}_count1`).innerHTML;
-     // y=x.split('/');
+      y=x.split(' ');
      // total_rating=(Number(y[0])+Number(num))/(2);
       //tot_rates=Number(y[1])+1;
-      tot_rates=Number(document.getElementById(`${columnName}_count1`).innerHTML);
-      document.getElementById(`${columnName}_count1`).innerHTML=tot_rates+1;
+      tot_rates=(document.getElementById(`${columnName}_count1`).innerHTML);
+      document.getElementById(`${columnName}_count1`).innerHTML=(Number(y[0])+1)+" ratings";
     }
     })
   }
