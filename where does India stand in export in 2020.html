@@ -252,112 +252,98 @@
                             <div class="column" id='section2'><div class="head"><span class="headline hl3">Role of government to boost exports</span></div><p>India's exports resulted in contraction for the consecutive fifth month by 1.8% in December 2019 to $27.36 billion. During April-December 2019-20, exports slipped by 1.96% to $239.29 billion. Thus, the Finance Minister Nirmala Sitharaman replied to a debate in the Union budget and further mentioned 6 specific steps taken to improve country's exports. 1. Remission of Duties or taxes on export product (RoDTEP) : It will replace the existing Merchandise from India Scheme (MEIS). MIES was introduced in 2015 but it did not comply with the WTO rules. While, RoDTEPwill cover central and state indirect taxes which are not currently reimbursed that happened earlier.2. Enhanced limit under priority sector lending : The export credit limit has been raised from Rs. 25 crore to Rs. 40 crore per borrower.3. Niryat Rin Vikas Yojana (NIRVIK) : To provide enhanced insurance cover and reduce premium for small exporters. 4. Sugar Export Policy : Government has approved a sugar export policy for evacuation of surplus stocks during the sugar season 2019-20.5. E-Commerce for Handicraft Industry : To enable handicraft industry to effectively harness e-commerce for exports. Mass enrollment with the artisans of India will be collaborated with the Textiles Ministry. 6. Amendment of Special Economic Zone (SEZ) : The government has also amended the SEZ law where trusts are allowed to set up units in special economic zones. To increase exports government has offered various incentives furthermore. Import Replenishment Licenses (REP) : The exporters are allowed for importing raw materials and exponents used in manufacture of export products. In this REPs are to be granted for the list of items of import. These are known as indirect exporters, and also termed as deemed exporters. Duty Exemption Scheme : Under this scheme, various raw material consumables for export products are imported duty free. It covers categories to advance license and custom clearance permit. It helps in direct exporters. Tax Exemptions on earnings : The profit on export is reduced by 50% for tax collection. There are flexible deduction in respect of expenditure by the company for promotion sales outside India. Cash assistance to exporters : Cash assistance is given to exporters to compete in International market. It is basically designed to match the differences in international price. Export Promotion Capital Goods Scheme (EPCG) : The scheme allows import of goods at a low rate of custom duty to fulfill the export obligation over a period. Second hand goods are allowed to be imported under certain conditions. Small industries can import capital goods to National Small industries Corporation India limited.</p></div></div></div>
                 </div>
                 <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id="column${
-                  i + 1
-                }_thumbs" 
-               onclick="clickProcess(this)"> <span  class="fa fa-thumbs-o-up" id="column_thumbs"> Upvote  
-                <span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span></span>
-              <br><br>
-              <script src="https://use.fontawesome.com/41cc35d596.js"></script>
-          
-              <script>
-                function clickProcess(element) {
-                  if (myFloID!=undefined) {
-                    if (element.classList.value  == "fa fa-thumbs-o-up")
-                     {
-                      let mainObj = {
-                        floID: myFloID,
-                        articlekey: current_article.textContent,
-                      };
-                      console.log("mainObj")
-                     floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")  .then((result, mainObj) => {
-                          element.classList.value = "fa fa-thumbs-up";
-              
-                          if(document.getElementById('num').textContent==" "){
-                    document.getElementById('num').textContent="1";
-                    }
-                    else{
-                      num1=Number(document.getElementById('num').textContent)
-                      document.getElementById('num').textContent=num1+1;
-              
-                    }
-                        });
-                    }
-                  } else {
-                    document.getElementById('notify').push("Please login to upvote",{pinned:true});
-                  }
-                    }
-          
-              </script>
-          
-             <!-- <script id="onLoadStartUp">
-                    var myFloID1,col,articlekeey,myPrivKey;
-                    function onLoadStartUp(){
-                      floDapps.launchStartUp()
-                    var  b=JSON.parse(sessionStorage.getItem("z"))
-                      myFloID=(sessionStorage.getItem("m"))
-                      col=(sessionStorage.getItem("col"))
-                      console.log(col)
-                      articlekeey=(sessionStorage.getItem("articlename"))
-                      myPrivKey=sessionStorage.getItem("myprivkey");
-                      myPubKey=sessionStorage.getItem("mypubkey");
-                     document.getElementById('num').textContent=b;
-                     //console.log(b+" "+col+" "+myFloID)
-                    //sessionStorage.removeItem('z');
-                    }
-              </script>-->
-          <script src="./components.min.js"></script>
-          <script id="onLoadStartUp">
-          
-            function onLoadStartUp() {
-                //floDapps.addStartUpFunction('Sample', Promised Function)
-                //floDapps.setAppObjectStores({sampleObs1:{}, sampleObs2:{options{autoIncrement:true, keyPath:'SampleKey'}, Indexes:{sampleIndex:{}}}})
-                floDapps.launchStartUp().then(result => {
-                    console.log(result)
-                    console.log(`Welcome FLO_ID: ${myFloID}`)
-                    //App functions....
-                    let articledata = floCloudAPI.requestGeneralData('test')
-          
-                    Promise.all([articledata]).then((values) => {
-                        console.log("The promises just got resolved")
-          
-                        let allArticles = document.querySelectorAll('[data-articlekey]')
-                        let map_articlekey_column = {}
-          
-                        for (let i = 0; i < allArticles.length; i++) {
-                            map_articlekey_column[`${allArticles[i].dataset.articlekey}`] = allArticles[i].id
-                            console.log(map_articlekey_column[`${allArticles[i].dataset.articlekey}`])
-                        }
-          
-                        // User list related operations 
-                        let articleInfo = floGlobals.generalData['test|FKAEdnPfjXLHSYwrXQu377ugN4tXU7VGdf|TEST_MODE'],
-                            articleInfo_keylist = Object.keys(articleInfo)
-          
-                        let articles_votesmapping = {}, 
-                            voterCount = 0,
-                            current_article = document.getElementById('title')
-                        for (let i = 0; i < articleInfo_keylist.length; i++) {
-                            let article_message = JSON.parse(articleInfo[articleInfo_keylist[i]].message)
-                            let c1=(Object.values(article_message))
-                            console.log(Object.values(article_message)[1])
-          
-                            // List of FLO IDs who voted for the current article
-                            if(current_article.dataset.articlename==c1[1]){
-                                voterCount+=1;
-                                if(myFloID==c1[0]){
-                                    document.getElementById(`column_thumbs`).classList.value='fa fa-thumbs-up'  ;                                              
-                                 }
+                    <script src="https://use.fontawesome.com/41cc35d596.js"></script>
+
+                    <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id="column1_thumbs" class="fa fa-thumbs-o-up"
+                    onclick="clickProcess(this)"> Upvote 
+                     <span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
+                   <br><br>
+                   <script>
+                       function clickProcess(element) {
+                         if (myFloID!=undefined) {
+                           if (element.classList.value  == "fa fa-thumbs-o-up")
+                            {
+                             let mainObj = {
+                               floID: myFloID,
+                               articlekey: document.getElementById('title').textContent, 
+                             };
+                             console.log("mainObj")
+                            floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")
+                               .then((result, mainObj) => {
+                                 element.classList.value = "fa fa-thumbs-up";
+                     
+                                 if(document.getElementById('num').textContent==" "){
+                           document.getElementById('num').textContent="1";
+                           }
+                           else{
+                             num1=Number(document.getElementById('num').textContent)
+                             document.getElementById('num').textContent=num1+1;
+                     
+                           }
+                               });
+                           }
+                         } else {
+                           document.getElementById('notify').push("Please login to upvote",{pinned:true});
+                         }
+                           }
+                 
+                     </script>
+                
+                <script id="onLoadStartUp">
+                
+                function onLoadStartUp() {
+                    //floDapps.addStartUpFunction('Sample', Promised Function)
+                    //floDapps.setAppObjectStores({sampleObs1:{}, sampleObs2:{options{autoIncrement:true, keyPath:'SampleKey'}, Indexes:{sampleIndex:{}}}})
+                    floDapps.launchStartUp().then(result => {
+                        console.log(result)
+                        console.log(`Welcome FLO_ID: ${myFloID}`)
+                        //App functions....
+                        let articledata = floCloudAPI.requestGeneralData('test')
+                
+                        Promise.all([articledata]).then((values) => {
+                            console.log("The promises just got resolved")
+                
+                            let allArticles = document.querySelectorAll('[data-articlekey]')
+                            let map_articlekey_column = {}
+                
+                            for (let i = 0; i < allArticles.length; i++) {
+                                map_articlekey_column[`${allArticles[i].dataset.articlekey}`] = allArticles[i].id
+                                console.log(map_articlekey_column[`${allArticles[i].dataset.articlekey}`])
                             }
-          
-                        }
-          
-                        if (voterCount > 0) {
-                            document.getElementById('num').innerText = voterCount
-                        }
-                    });
-          
-                }).catch(error => console.error(error))
-            }
-            </script>
+                
+                            // User list related operations 
+                            let articleInfo = floGlobals.generalData['test|FKAEdnPfjXLHSYwrXQu377ugN4tXU7VGdf|TEST_MODE'],
+                                                                articleInfo_keylist = Object.keys(articleInfo)
+                
+                                                            let articles_votesmapping = {}, 
+                                                                voterCount = 0,
+                                                                current_article = document.getElementById('title')
+                                                            for (let i = 0; i < articleInfo_keylist.length; i++) {
+                                                                let article_message = JSON.parse(articleInfo[articleInfo_keylist[i]].message)
+                                                                let c1=(Object.values(article_message))
+                
+                                                                // List of FLO IDs who voted for the current article
+                                                                console.log(c1[1])
+                
+                                                                if(document.getElementById('title').textContent==c1[1]){
+                                                                    voterCount+=1;
+                                                                    if(myFloID==c1[0]){
+                                                                        document.getElementById(`column1_thumbs`).classList.value='fa fa-thumbs-up'  ;                                              
+                                                                     }
+                                                                }
+                
+                                                            }
+                
+                                                            if (voterCount > 0) {
+                                                                document.getElementById('num').innerText = voterCount
+                                                            }
+                                                        });
+                
+                    }).catch(error => console.error(error))
+                }
+                </script>
+
+              <script src="./components.min.js"></script>
             <script id="floGlobals">
               /* Constants for FLO blockchain operations !!Make sure to add this at begining!! */
               const floGlobals = {

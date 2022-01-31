@@ -252,63 +252,45 @@
                             <div class="column" id='section2'><div class="head"><span class="headline hl3">Measures the government should take</span></div><p>World Health Organization considered the spread of covid 19 as a pandemic. This resultant in growing inequality among the societies. The only way to save a life is to take few steps in order to take precautions. There are several measures that government should take. One of the most important measures that the government should take is the protection of jobs, especially of the lower income group, they can easily lose their livelihood and this pandemic affects them the most, more investments should be made in small scale businesses, the government can frame new the policies, and schemes for job opportunities on universal level. Measure to help the lowers — The government is processing with  no. of programs that helps the lower and the middle-class individual to become stable on their own. This is most needed at the time of the pandemic. This should be reached smoothly and particularly to the needy. Restrictions on transportation — One of the very first measures taken by International community was to close borders and suspend international flights. This should go longer with more and more precautions to the extent of safety. Measure to reduce mass mobility-Countries most affected by the virus have so far adopted different policies on curfews. It gives a scenario of the daily commercial life that paused. Crowded areas should seal till the safety phase seems visible. Food availability to the migrant workers should be the primary responsibility of the government. Measure for work life — The governments all around the world adopted supportive measures for employees and employers, who have been adversely affected by the outbreak. It should be in the way it is. Work from home is quite manageable step to carry on in the period of Covid 19 Pandemic. Measure at health care system — The spread of the virus brought a heavy burden on the healthcare systems in the most affected countries, and stocks of healthcare equipment and medication began to short. Many countries offered free testing and freeing medications that are itself a quite good initiative.</p></div></div><div class="columns">
                             <div class="column" id='section3'><div class="head"><span class="headline hl3">Role of Individual</span></div><p>The individuals play a vital role in the time of this Pandemic. They itself need to take the responsibility of tackling out of the unfavorable situation. The primary role is to take care of themselves and as well as of others in the society in this period of pandemic. Then a individual should work on their own productivity, update their skills. Self-improvement, hard work, striving to be better version of ourselves is the necessary step, one should take when addressing our contribution to any global change. If the government does not listen, the society have to make them listen and make a network to the civil society to bring the change with equal hands and recognize their worth of doing the contribution at the time of this pandemic. People of this country know how to engage with the government—even when we disagree with our leaders, or they don’t listen to us. As we live in a constitutional democracy, and civil society organizations to put pressure on the government, and to recreate society on the principles of equality, respect, and solidarity. Many civil society organizations have been working with domestic workers, industrial workers, mine workers, street vendors, or other informal sector workers, and many helping hands came together to help other needy people of the society. Perhaps This is the time for us to do that.</p></div></div></div>
                 </div>
-                <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id="column${
-                  i + 1
-                }_thumbs" 
-               onclick="clickProcess(this)"> <span  class="fa fa-thumbs-o-up" id="column_thumbs"> Upvote  
-                <span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span></span>
-              <br><br>
-              <script src="https://use.fontawesome.com/41cc35d596.js"></script>
-          
-              <script>
-                function clickProcess(element) {
-                  if (myFloID!=undefined) {
-                    if (element.classList.value  == "fa fa-thumbs-o-up")
-                     {
-                      let mainObj = {
-                        floID: myFloID,
-                        articlekey: current_article.textContent,
-                      };
-                      console.log("mainObj")
-                     floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")  .then((result, mainObj) => {
-                          element.classList.value = "fa fa-thumbs-up";
-              
-                          if(document.getElementById('num').textContent==" "){
-                    document.getElementById('num').textContent="1";
-                    }
-                    else{
-                      num1=Number(document.getElementById('num').textContent)
-                      document.getElementById('num').textContent=num1+1;
-              
-                    }
-                        });
-                    }
-                  } else {
-                    document.getElementById('notify').push("Please login to upvote",{pinned:true});
-                  }
-                    }
-          
-              </script>
-          
-             <!-- <script id="onLoadStartUp">
-                    var myFloID1,col,articlekeey,myPrivKey;
-                    function onLoadStartUp(){
-                      floDapps.launchStartUp()
-                    var  b=JSON.parse(sessionStorage.getItem("z"))
-                      myFloID=(sessionStorage.getItem("m"))
-                      col=(sessionStorage.getItem("col"))
-                      console.log(col)
-                      articlekeey=(sessionStorage.getItem("articlename"))
-                      myPrivKey=sessionStorage.getItem("myprivkey");
-                      myPubKey=sessionStorage.getItem("mypubkey");
-                     document.getElementById('num').textContent=b;
-                     //console.log(b+" "+col+" "+myFloID)
-                    //sessionStorage.removeItem('z');
-                    }
-              </script>-->
-          <script src="./components.min.js"></script>
-          <script id="onLoadStartUp">
-          
+                <script src="https://use.fontawesome.com/41cc35d596.js"></script>
+
+                <span style="padding-left:10rem;cursor:pointer;border: black solid 2px;padding: 6px;margin-left: 10rem;" id="column1_thumbs" class="fa fa-thumbs-o-up"
+                onclick="clickProcess(this)"> Upvote 
+                 <span style="font-weight:bold;padding-left: 5px;" id="num"> </span></span>
+               <br><br>
+               <script>
+                   function clickProcess(element) {
+                     if (myFloID!=undefined) {
+                       if (element.classList.value  == "fa fa-thumbs-o-up")
+                        {
+                         let mainObj = {
+                           floID: myFloID,
+                           articlekey: document.getElementById('title').textContent, 
+                         };
+                         console.log("mainObj")
+                        floCloudAPI.sendGeneralData(JSON.stringify(mainObj), "test")
+                           .then((result, mainObj) => {
+                             element.classList.value = "fa fa-thumbs-up";
+                 
+                             if(document.getElementById('num').textContent==" "){
+                       document.getElementById('num').textContent="1";
+                       }
+                       else{
+                         num1=Number(document.getElementById('num').textContent)
+                         document.getElementById('num').textContent=num1+1;
+                 
+                       }
+                           });
+                       }
+                     } else {
+                       document.getElementById('notify').push("Please login to upvote",{pinned:true});
+                     }
+                       }
+             
+                 </script>
+            
+            <script id="onLoadStartUp">
+            
             function onLoadStartUp() {
                 //floDapps.addStartUpFunction('Sample', Promised Function)
                 //floDapps.setAppObjectStores({sampleObs1:{}, sampleObs2:{options{autoIncrement:true, keyPath:'SampleKey'}, Indexes:{sampleIndex:{}}}})
@@ -317,48 +299,51 @@
                     console.log(`Welcome FLO_ID: ${myFloID}`)
                     //App functions....
                     let articledata = floCloudAPI.requestGeneralData('test')
-          
+            
                     Promise.all([articledata]).then((values) => {
                         console.log("The promises just got resolved")
-          
+            
                         let allArticles = document.querySelectorAll('[data-articlekey]')
                         let map_articlekey_column = {}
-          
+            
                         for (let i = 0; i < allArticles.length; i++) {
                             map_articlekey_column[`${allArticles[i].dataset.articlekey}`] = allArticles[i].id
                             console.log(map_articlekey_column[`${allArticles[i].dataset.articlekey}`])
                         }
-          
+            
                         // User list related operations 
                         let articleInfo = floGlobals.generalData['test|FKAEdnPfjXLHSYwrXQu377ugN4tXU7VGdf|TEST_MODE'],
-                            articleInfo_keylist = Object.keys(articleInfo)
-          
-                        let articles_votesmapping = {}, 
-                            voterCount = 0,
-                            current_article = document.getElementById('title')
-                        for (let i = 0; i < articleInfo_keylist.length; i++) {
-                            let article_message = JSON.parse(articleInfo[articleInfo_keylist[i]].message)
-                            let c1=(Object.values(article_message))
-                            console.log(Object.values(article_message)[1])
-          
-                            // List of FLO IDs who voted for the current article
-                            if(current_article.dataset.articlename==c1[1]){
-                                voterCount+=1;
-                                if(myFloID==c1[0]){
-                                    document.getElementById(`column_thumbs`).classList.value='fa fa-thumbs-up'  ;                                              
-                                 }
-                            }
-          
-                        }
-          
-                        if (voterCount > 0) {
-                            document.getElementById('num').innerText = voterCount
-                        }
-                    });
-          
+                                                            articleInfo_keylist = Object.keys(articleInfo)
+            
+                                                        let articles_votesmapping = {}, 
+                                                            voterCount = 0,
+                                                            current_article = document.getElementById('title')
+                                                        for (let i = 0; i < articleInfo_keylist.length; i++) {
+                                                            let article_message = JSON.parse(articleInfo[articleInfo_keylist[i]].message)
+                                                            let c1=(Object.values(article_message))
+            
+                                                            // List of FLO IDs who voted for the current article
+                                                            console.log(c1[1])
+            
+                                                            if(document.getElementById('title').textContent==c1[1]){
+                                                                voterCount+=1;
+                                                                if(myFloID==c1[0]){
+                                                                    document.getElementById(`column1_thumbs`).classList.value='fa fa-thumbs-up'  ;                                              
+                                                                 }
+                                                            }
+            
+                                                        }
+            
+                                                        if (voterCount > 0) {
+                                                            document.getElementById('num').innerText = voterCount
+                                                        }
+                                                    });
+            
                 }).catch(error => console.error(error))
             }
             </script>
+
+          <script src="./components.min.js"></script>
             <script id="floGlobals">
               /* Constants for FLO blockchain operations !!Make sure to add this at begining!! */
               const floGlobals = {
