@@ -1665,7 +1665,7 @@ this.show()
 
     </script>
 
-    <script id="onLoadStartUp">
+   <!--<script id="onLoadStartUp">
           var myFloID,col,articlekeey,myPrivKey;
           function onLoadStartUp(){
             floDapps.launchStartUp().then(result => {
@@ -1685,7 +1685,133 @@ this.show()
            //console.log(b+" "+col+" "+myFloID)
           //sessionStorage.removeItem('z');
           }
-    </script>
+    </script>-->
+    <script id="onLoadStartUp">
+
+      let notifications = document.getElementById("sm-notifications"),
+          genblockchainID = document.getElementById('gen-floid'),
+          genPrivateKey = document.getElementById('gen-privateKey'),
+          settings_page = document.getElementById('settings-page'),
+          homepage = document.getElementById('homepage'),
+          mainarticle_page = document.getElementById('display_page_main')
+
+      let myCustomLogin = function () {
+          return new Promise((resolve, reject) => {
+
+              document.getElementById("login-button").addEventListener("click", function () {
+                  //let userprivatekey = prompt(`Enter Private Key: `)
+                  //resolve(userprivatekey)
+                  document.getElementById('login-popup').show()
+              });
+
+              document.getElementById("signin-button").addEventListener("click", function () {
+                  let userprivatekey = document.getElementById('privateKey-input').value.trim()
+                  document.getElementById('login-popup').hide()
+                  resolve(userprivatekey)
+              });
+
+              document.getElementById("guest-login-button").addEventListener("click", function () {
+                  notifications.push('Please save your Private Key!', '', true)
+                  document.getElementById('login-popup').hide()
+                  homepage.classList.toggle('hide')
+                  settings_page.classList.toggle('hide')
+                  reject()
+              });
+
+          })
+      }
+
+      genblockchainID.addEventListener("click", function () {
+          navigator.clipboard.writeText(this.value).then(value => {
+              notifications.push('Blockchain ID copied')
+          })
+      })
+
+      genPrivateKey.addEventListener("click", function () {
+          navigator.clipboard.writeText(this.value).then(value => {
+              notifications.push('Private Key copied')
+          })
+      })
+
+      document.getElementById('ranchimalltimes-logo').addEventListener("click", function () {
+          if (!mainarticle_page.classList.contains('hide')) {
+              document.getElementById("go_back").click()
+          } else if (!settings_page.classList.contains('hide')) {
+              document.getElementById('settings-button').click()
+          }
+      })
+
+      document.getElementById('logout-button').addEventListener("click", function () {
+          floDapps.clearCredentials()
+          notifications.push('Succesfully logged out')
+          setTimeout(function () {
+              location.reload()
+          }, 2000);
+      })
+
+      document.getElementById('settings-button').addEventListener("click", function () {
+          homepage.classList.toggle('hide')
+          settings_page.classList.toggle('hide')
+      })
+
+      function onLoadStartUp() {
+          //floDapps.addStartUpFunction('Sample', Promised Function)
+          //floDapps.setAppObjectStores({sampleObs1:{}, sampleObs2:{options{autoIncrement:true, keyPath:'SampleKey'}, Indexes:{sampleIndex:{}}}})
+          floDapps.setCustomPrivKeyInput(myCustomLogin);
+          floDapps.launchStartUp().then(result => {
+
+              document.getElementById("login-button").style.display = 'none'
+              document.getElementById("settings-button").style.display = 'initial'
+              console.log(result)
+              console.log(`Welcome FLO_ID: ${myFloID}`)
+
+              // fill settings page 
+              genblockchainID.value = myFloID
+              genPrivateKey.value = myPrivKey
+
+              //App functions....
+              let articledata = floCloudAPI.requestGeneralData('test')
+
+              Promise.all([articledata]).then((values) => {
+                  console.log("The promises just got resolved")
+
+                  let allArticles = document.querySelectorAll('[data-articlekey]')
+                  let map_articlekey_column = {}
+
+                  for (let i = 0; i < allArticles.length; i++) {
+                      map_articlekey_column[`${allArticles[i].dataset.articlekey}`] = allArticles[i].id
+                      console.log(map_articlekey_column[`${allArticles[i].dataset.articlekey}`])
+                  }
+
+                  // User list related operations 
+                  let articleInfo = floGlobals.generalData['test|FKAEdnPfjXLHSYwrXQu377ugN4tXU7VGdf|TEST_MODE'],
+                      articleInfo_keylist = Object.keys(articleInfo)
+
+                  let articles_votesmapping = {}, 
+                      voterCount = 0,
+                      current_article = document.getElementById('title')
+                  for (let i = 0; i < articleInfo_keylist.length; i++) {
+                      let article_message = JSON.parse(articleInfo[articleInfo_keylist[i]].message)
+                      let c1=(Object.values(article_message))
+
+                      // List of FLO IDs who voted for the current article
+                      if(current_article.dataset.articlename==c1[1]){
+                          voterCount+=1;
+                          if(myFloID==c1[0]){
+                              document.getElementById(`column1_thumbs`).classList.value='fa fa-thumbs-up'  ;                                              
+                           }
+                      }
+
+                  }
+
+                  if (voterCount > 0) {
+                      document.getElementById('num').innerText = voterCount
+                  }
+              });
+
+          }).catch(error => console.error(error))
+      }
+      </script>
 <script id="floGlobals">
   /* Constants for FLO blockchain operations !!Make sure to add this at begining!! */
   const floGlobals = {
